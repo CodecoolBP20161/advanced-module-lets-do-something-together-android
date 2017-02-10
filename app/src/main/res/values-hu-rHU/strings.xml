@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">ActiMate</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Jelszó</string>
+    <string name="action_sign_in">Bejelentkezés vagy regisztráció</string>
+    <string name="action_sign_in_short">Bejelentkezés</string>
+    <string name="error_invalid_email">Helytelen email cím</string>
+    <string name="error_invalid_password">A jelszó túl rövid</string>
+    <string name="error_incorrect_password">Helytelen jelszó</string>
+    <string name="error_field_required">Ez a mező szükséges</string>
+    <string name="permission_rationale">"Ez most túl hosszú ahhoz, hogy lefordítsam."
+    </string>
+    <string name="success">Siker</string>
+</resources>
