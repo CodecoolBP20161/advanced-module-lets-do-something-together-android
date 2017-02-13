@@ -345,13 +345,39 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             /**
              * Registration branch
              */
+            sendPostRequest("http://192.168.0.196:8888/registration",mEmail, mPassword);
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask = null;
+            showProgress(false);
+
+            if (success) {
+//                finish();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+            } else {
+                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.requestFocus();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+            showProgress(false);
+        }
+
+        protected void sendPostRequest(String url, String email, String password){
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost("http://192.168.0.196:8888/registration");
+            HttpPost httpPost = new HttpPost(url);
             String json = "";
             JSONObject postData = new JSONObject();
             try {
-                postData.accumulate("email", mEmail);
-                postData.accumulate("password", mPassword);
+                postData.accumulate("email", email);
+                postData.accumulate("password", password);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -376,28 +402,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 // Log exception
                 e.printStackTrace();
             }
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-//                finish();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
         }
     }
 }
