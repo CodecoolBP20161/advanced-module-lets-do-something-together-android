@@ -31,22 +31,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -326,7 +323,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             /**
              * Login branch
              */
-            sendPostRequest("http://192.168.0.196:8888/login", mEmail, mPassword);
+            try {
+                postHttpData("http://192.168.0.196:8888/login", createJson(mEmail, mPassword).toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
@@ -346,7 +347,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             /**
              * Registration branch
              */
-            sendPostRequest("http://192.168.0.196:8888/registration",mEmail, mPassword);
+            try {
+                postHttpData("http://192.168.0.196:8888/registration", createJson(mEmail, mPassword).toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return true;
         }
 
@@ -370,40 +375,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
 
-        protected void sendPostRequest(String url, String email, String password){
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost(url);
-            String json = "";
-            JSONObject postData = new JSONObject();
+        protected JSONObject createJson(String email, String password) {
+            JSONObject json = new JSONObject();
             try {
-                postData.accumulate("email", email);
-                postData.accumulate("password", password);
+                json.accumulate("email", email);
+                json.accumulate("password", password);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            return json;
+        }
 
-            json = postData.toString();
-            Log.d("sendPostRequest data: ", json);
-
-            try {
-                StringEntity se = new StringEntity(json);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-
-            httpPost.setHeader("Content-type", "application/json");
-
-            try {
-                HttpResponse response = httpClient.execute(httpPost);
-                // write response to log
-                Log.d("HTTP POST RESPONSE: ", response.toString());
-            } catch (ClientProtocolException e) {
-                // Log exception
-                e.printStackTrace();
-            } catch (IOException e) {
-                // Log exception
-                e.printStackTrace();
-            }
+        String postHttpData(String url, String json) throws IOException {
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody body = RequestBody.create(JSON, json);
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(body)
+                    .build();
+            okhttp3.Response response = client.newCall(request).execute();
+            return response.body().string();
         }
     }
 }
