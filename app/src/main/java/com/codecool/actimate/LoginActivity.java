@@ -326,6 +326,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             /**
              * Login branch
              */
+            sendPostRequest("http://192.168.0.196:8888/login", mEmail, mPassword);
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
@@ -355,7 +356,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-//                finish();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             } else {
@@ -381,20 +381,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             json = postData.toString();
-            System.out.println(json);
+            Log.d("sendPostRequest data: ", json);
 
             try {
                 StringEntity se = new StringEntity(json);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            httpPost.setHeader("Accept", "application/json");
+
             httpPost.setHeader("Content-type", "application/json");
+
             try {
                 HttpResponse response = httpClient.execute(httpPost);
                 // write response to log
-                Log.d("Http Post Response:", response.toString());
+                Log.d("HTTP POST RESPONSE: ", response.toString());
             } catch (ClientProtocolException e) {
                 // Log exception
                 e.printStackTrace();
