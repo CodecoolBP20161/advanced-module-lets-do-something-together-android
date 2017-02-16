@@ -56,6 +56,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
+    private static final String TAG = "LoginActivity";
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -324,7 +325,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
              * Login branch
              */
             try {
-                postHttpData("http://192.168.0.196:8888/login", createJson(mEmail, mPassword).toString());
+                postHttpData("http://192.168.160.55:8888/login", createJson(mEmail, mPassword).toString());
+//                postHttpData("http://192.168.0.196:8888/login", createJson(mEmail, mPassword).toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -348,7 +350,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
              * Registration branch
              */
             try {
-                postHttpData("http://192.168.0.196:8888/registration", createJson(mEmail, mPassword).toString());
+                postHttpData("http://192.168.160.55:8888/registration", createJson(mEmail, mPassword).toString());
+//                postHttpData("http://192.168.0.196:8888/registration", createJson(mEmail, mPassword).toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -395,6 +398,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     .post(body)
                     .build();
             okhttp3.Response response = client.newCall(request).execute();
+            Log.d(TAG, "postHttpData: response: " + response.toString());
             return response.body().string();
         }
     }
