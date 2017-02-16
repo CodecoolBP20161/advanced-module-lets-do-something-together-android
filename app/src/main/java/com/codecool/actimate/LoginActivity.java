@@ -3,7 +3,9 @@ package com.codecool.actimate;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -57,6 +59,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private static final int REQUEST_READ_CONTACTS = 0;
     private static final String TAG = "LoginActivity";
+    private final static String PREFS_KEY = "com.codecool.actimate.preferences";
+    private static SharedPreferences mSharedPreferences;
+    private Context context;
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -80,6 +85,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        context = LoginActivity.this;
+        mSharedPreferences = context.getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE);
+        Log.d(TAG, "onCreate: loggedIn: " + mSharedPreferences.getBoolean("loggedIn", false));
+        if (mSharedPreferences.getBoolean("loggedIn", false)){
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -206,12 +218,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        return email.contains("@") && email.contains(".");
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 5;
     }
 
     /**
@@ -364,6 +376,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                mSharedPreferences.edit().putBoolean("loggedIn", true).apply();
+                Log.d(TAG, "onPostExecute: loggedIn: " + mSharedPreferences.getBoolean("loggedIn", false));
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             } else {

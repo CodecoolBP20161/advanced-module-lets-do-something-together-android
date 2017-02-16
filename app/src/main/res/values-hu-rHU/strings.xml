@@ -13,4 +13,5 @@
     <string name="permission_rationale">"Ez most túl hosszú ahhoz, hogy lefordítsam."
     </string>
     <string name="success">Siker</string>
+    <string name="logout">Kijelentkezés</string>
 </resources>
