@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,8 +31,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -44,6 +56,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
+    private static final String TAG = "LoginActivity";
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -308,7 +321,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-
+            /**
+             * Login branch
+             */
+            try {
+                postHttpData("http://192.168.160.55:8888/login", createJson(mEmail, mPassword).toString());
+//                postHttpData("http://192.168.0.196:8888/login", createJson(mEmail, mPassword).toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
@@ -324,8 +345,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
 
-            // TODO: register the new account here.
-            return false;
+            // TODO: swap url to the final one when it's up and running.
+            /**
+             * Registration branch
+             */
+            try {
+                postHttpData("http://192.168.160.55:8888/registration", createJson(mEmail, mPassword).toString());
+//                postHttpData("http://192.168.0.196:8888/registration", createJson(mEmail, mPassword).toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return true;
         }
 
         @Override
@@ -334,7 +364,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-//                finish();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             } else {
@@ -347,6 +376,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+
+        protected JSONObject createJson(String email, String password) {
+            JSONObject json = new JSONObject();
+            try {
+                json.accumulate("email", email);
+                json.accumulate("password", password);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return json;
+        }
+
+        String postHttpData(String url, String json) throws IOException {
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody body = RequestBody.create(JSON, json);
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(body)
+                    .build();
+            okhttp3.Response response = client.newCall(request).execute();
+            Log.d(TAG, "postHttpData: response: " + response.toString());
+            return response.body().string();
         }
     }
 }
