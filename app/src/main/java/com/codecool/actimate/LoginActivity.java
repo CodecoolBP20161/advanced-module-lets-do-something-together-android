@@ -3,7 +3,9 @@ package com.codecool.actimate;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -37,6 +39,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,14 +60,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private static final int REQUEST_READ_CONTACTS = 0;
     private static final String TAG = "LoginActivity";
+    private final static String PREFS_KEY = "com.codecool.actimate.preferences";
+    private static SharedPreferences mSharedPreferences;
+    private String status;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
+
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -80,6 +80,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Context context = LoginActivity.this;
+        mSharedPreferences = context.getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE);
+        Log.d(TAG, "onCreate: loggedIn: " + mSharedPreferences.getBoolean("loggedIn", false));
+        if (mSharedPreferences.getBoolean("loggedIn", false)){
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -206,12 +213,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        return email.contains("@") && email.contains(".");
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        boolean upperCase = false, lowerCase = false, number = false;
+        for (int i = 0; i < password.length(); i++) {
+            if(Character.isUpperCase(password.charAt(i))){
+                upperCase = true;
+            } else if (Character.isLowerCase(password.charAt(i))){
+                lowerCase = true;
+            } else if (Character.isDigit(password.charAt(i))){
+                number = true;
+            }
+        }
+        return password.length() > 5 && upperCase && lowerCase && number;
+
     }
 
     /**
@@ -301,7 +319,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         };
 
         int ADDRESS = 0;
-        int IS_PRIMARY = 1;
+//        int IS_PRIMARY = 1;
     }
 
     /**
@@ -324,38 +342,45 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             /**
              * Login branch
              */
-            try {
-                postHttpData("http://192.168.160.55:8888/login", createJson(mEmail, mPassword).toString());
-//                postHttpData("http://192.168.0.196:8888/login", createJson(mEmail, mPassword).toString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
             try {
                 // Simulate network access.
-                Thread.sleep(2000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+            try {
+                String response = postHttpData("https://actimate.herokuapp.com/androidlogin", createJson(mEmail, mPassword).toString());
+//                postHttpData("http://192.168.0.196:8888/login", createJson(mEmail, mPassword).toString());
+//                Log.d(TAG, "doInBackground: LOGIN response: " + response);
+                if (response.equals("success")){
+                    return true;
+                } else if (response.equals("wrong password")){
+                    status = "wrong password";
+                    return false;
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
 
             // TODO: swap url to the final one when it's up and running.
             /**
              * Registration branch
              */
             try {
-                postHttpData("http://192.168.160.55:8888/registration", createJson(mEmail, mPassword).toString());
+                String response = postHttpData("https://actimate.herokuapp.com/registration", createJson(mEmail, mPassword).toString());
 //                postHttpData("http://192.168.0.196:8888/registration", createJson(mEmail, mPassword).toString());
+//                Log.d(TAG, "doInBackground: REGISTRATION response: " + response);
+                if(response.equals("success")){
+                    return true;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return true;
+            status = "already registered";
+            return false;
         }
 
         @Override
@@ -364,12 +389,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                mSharedPreferences.edit().putBoolean("loggedIn", true).apply();
+                Log.d(TAG, "onPostExecute: loggedIn: " + mSharedPreferences.getBoolean("loggedIn", false));
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                switch(status){
+                    case "already registered":
+                        mEmailView.setError(getString(R.string.error_already_registered));
+                        mEmailView.requestFocus();
+                        break;
+                    default:
+                        mPasswordView.setError(getString(R.string.error_incorrect_password));
+                        mPasswordView.requestFocus();
+                        break;
+                }
+
             }
+
+
         }
 
         @Override
@@ -378,7 +416,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
 
-        protected JSONObject createJson(String email, String password) {
+        JSONObject createJson(String email, String password) {
             JSONObject json = new JSONObject();
             try {
                 json.accumulate("email", email);
@@ -391,6 +429,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         String postHttpData(String url, String json) throws IOException {
             OkHttpClient client = new OkHttpClient();
+
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
             RequestBody body = RequestBody.create(JSON, json);
             Request request = new Request.Builder()
@@ -398,8 +437,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     .post(body)
                     .build();
             okhttp3.Response response = client.newCall(request).execute();
-            Log.d(TAG, "postHttpData: response: " + response.toString());
-            return response.body().string();
+            String responseBody = response.body().string();
+            Log.d(TAG, "postHttpData:" + url + " : " + responseBody);
+            return responseBody;
         }
     }
 }
