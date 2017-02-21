@@ -351,7 +351,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
 
             try {
-                String response = postHttpData("http://192.168.160.55:8888/androidlogin", createJson(mEmail, mPassword).toString());
+                String response = postHttpData("https://actimate.herokuapp.com/androidlogin", createJson(mEmail, mPassword).toString());
 //                postHttpData("http://192.168.0.196:8888/login", createJson(mEmail, mPassword).toString());
 //                Log.d(TAG, "doInBackground: LOGIN response: " + response);
                 if (response.equals("success")){
@@ -370,7 +370,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
              * Registration branch
              */
             try {
-                String response = postHttpData("http://192.168.160.55:8888/registration", createJson(mEmail, mPassword).toString());
+                String response = postHttpData("https://actimate.herokuapp.com/registration", createJson(mEmail, mPassword).toString());
 //                postHttpData("http://192.168.0.196:8888/registration", createJson(mEmail, mPassword).toString());
 //                Log.d(TAG, "doInBackground: REGISTRATION response: " + response);
                 if(response.equals("success")){
