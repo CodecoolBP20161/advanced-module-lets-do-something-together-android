@@ -1,4 +1,4 @@
-package com.codecool.actimate;
+package com.codecool.actimate.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,12 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.codecool.actimate.R;
+import com.codecool.actimate.controller.APIController;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = MainActivity.class.getSimpleName();
     private final static String PREFS_KEY = "com.codecool.actimate.preferences";
     private static SharedPreferences mSharedPreferences;
     private Context context;
@@ -27,8 +28,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void logout(View view){
-        mSharedPreferences.edit().putBoolean("loggedIn", false).apply();
-        Log.d(TAG, "onPostExecute: loggedIn: " + mSharedPreferences.getBoolean("loggedIn", false));
+        APIController.setLoggedOut(mSharedPreferences);
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
     }
