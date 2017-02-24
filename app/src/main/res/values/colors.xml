@@ -3,5 +3,7 @@
     <color name="colorPrimary">#84D9BE</color>
     <color name="colorPrimaryDark">#37846C</color>
     <color name="colorAccent">#37846C</color>
-    <color name="Mint">#84d9be</color>
+    <color name="mint">#84d9be</color>
+    <color name="mintLight">#7784d9be</color>
+    <color name="white">#FFFFFF</color>
 </resources>

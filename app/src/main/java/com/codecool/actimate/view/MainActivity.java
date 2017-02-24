@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.codecool.actimate.R;
@@ -27,9 +30,36 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: loggedIn: " + mSharedPreferences.getBoolean("loggedIn", false));
     }
 
-    protected void logout(View view){
+    protected boolean logout(View view){
         APIController.setLoggedOut(mSharedPreferences);
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
+        return true;
     }
+
+    protected boolean goToProfile(View view){
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_header, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_profile:
+                return goToProfile(this.findViewById(R.id.action_profile));
+            default:
+                return logout(this.findViewById(R.id.action_logout));
+
+        }
+    }
+
+
+
+
 }

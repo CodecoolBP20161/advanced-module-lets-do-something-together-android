@@ -15,4 +15,5 @@
     <string name="logout">Logout</string>
     <string name="error_server">There has been a problem with the server. Please try again later.</string>
     <string name="error_no_connection">This action requires network access. Please connect to a nearby WiFi or enable data traffic.</string>
+    <string name="profile">Profile</string>
 </resources>
