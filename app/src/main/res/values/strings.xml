@@ -4,16 +4,15 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">The password should be at least 6 characters long and should contain both uppercase and lowercase characters and a number</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_incorrect_password">Password is incorrect</string>
+    <string name="error_incorrect_email">Email is incorrect</string>
     <string name="error_already_registered">This email address is already in use</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-    <string name="success">Success</string>
     <string name="logout">Logout</string>
+    <string name="error_server">There has been a problem with the server. Please try again later.</string>
+    <string name="error_no_connection">This action requires network access. Please connect to a nearby WiFi or enable data traffic.</string>
 </resources>
