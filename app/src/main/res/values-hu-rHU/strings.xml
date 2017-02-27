@@ -15,6 +15,6 @@
     <string name="logout">Kijelentkezés</string>
     <string name="error_server">Probléma adódott a szerverrel. Próbáld újra később.</string>
     <string name="error_no_connection">Ehhez a művelethez hálózati hozzáférés szükséges. Csatlakozzon egy WiFi hálózathoz vagy kapcsolja be az adatforgalmat.</string>
-
+    <string name="profile">Adatlap</string>
 
 </resources>
