@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected boolean goToProfile(View view){
+        Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
+        startActivity(intent);
         return true;
     }
 
@@ -51,15 +53,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_profile:
-                return goToProfile(this.findViewById(R.id.action_profile));
-            default:
+            case R.id.action_to_profile:
+                return goToProfile(this.findViewById(R.id.action_to_profile));
+            case R.id.action_logout:
                 return logout(this.findViewById(R.id.action_logout));
 
         }
+        return false;
     }
-
-
-
-
 }

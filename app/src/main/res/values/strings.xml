@@ -16,4 +16,27 @@
     <string name="error_server">There has been a problem with the server. Please try again later.</string>
     <string name="error_no_connection">This action requires network access. Please connect to a nearby WiFi or enable data traffic.</string>
     <string name="profile">Profile</string>
+    <string name="home">Home page</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="language">Language</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="introduction">Introduction</string>
+    <string name="tennis">Tennis</string>
+    <string name="gokart">Gokart</string>
+    <string name="running">Running</string>
+    <string name="cardgames">Card games</string>
+    <string name="cinema">Cinema</string>
+    <string name="theater">Theater</string>
+    <string name="citywalks">Sightseeing</string>
+    <string name="hiking">Hiking</string>
+    <string name="save">Save</string>
+
+
+
+
+
+
 </resources>
