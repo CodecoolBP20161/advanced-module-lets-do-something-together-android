@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:background="@color/mintLight"
+    android:background="@color/teaGreenLight"
     tools:context="com.codecool.actimate.view.LoginActivity">
 
     <!-- Login progress -->
@@ -73,7 +73,7 @@
                     android:layout_weight="1"
                     android:text="@string/register"
                     android:textStyle="bold"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/tealBlue"
                     android:textColor="@color/white" />
 
                 <Button
@@ -86,7 +86,7 @@
                     android:layout_weight="1"
                     android:text="@string/login"
                     android:textStyle="bold"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/tealBlue"
                     android:textColor="@color/white"/>
 
             </LinearLayout>

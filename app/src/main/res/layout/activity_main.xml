@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mintLight"
+    android:background="@color/teaGreenLight"
     tools:context="com.codecool.actimate.view.MainActivity">
 
     <ImageView
