@@ -16,5 +16,23 @@
     <string name="error_server">Probléma adódott a szerverrel. Próbáld újra később.</string>
     <string name="error_no_connection">Ehhez a művelethez hálózati hozzáférés szükséges. Csatlakozzon egy WiFi hálózathoz vagy kapcsolja be az adatforgalmat.</string>
     <string name="profile">Adatlap</string>
+    <string name="home">Főoldal</string>
+    <string name="first_name">Keresztnév</string>
+    <string name="last_name">Vezetéknév</string>
+    <string name="language">Nyelv</string>
+    <string name="gender">Neme</string>
+    <string name="male">Férfi</string>
+    <string name="female">Nő</string>
+    <string name="introduction">Bemutatkozás</string>
+    <string name="tennis">Teniszezés</string>
+    <string name="gokart">Gokartozás</string>
+    <string name="running">Futás</string>
+    <string name="cardgames">Kártyajátékok</string>
+    <string name="cinema">Mozi</string>
+    <string name="theater">Színház</string>
+    <string name="citywalks">Városnézés</string>
+    <string name="hiking">Kirándulás</string>
+    <string name="save">Mentés</string>
+
 
 </resources>

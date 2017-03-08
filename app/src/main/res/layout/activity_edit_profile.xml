@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/teaGreenLight">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_edit_profile"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        tools:context="com.codecool.actimate.view.EditProfileActivity">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_marginBottom="25dp"
+                android:id="@+id/first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/first_name"
+                android:maxLines="1"
+                android:inputType="textPersonName" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_marginBottom="25dp"
+                android:id="@+id/last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/last_name"
+                android:maxLines="1"
+                android:inputType="textPersonName" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_marginBottom="25dp"
+                android:id="@+id/language"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/language"
+                android:maxLines="1"
+                android:inputType="text" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <RadioGroup
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_marginBottom="25dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+            <RadioButton android:id="@+id/radio_male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/male"
+                android:layout_weight="1"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton android:id="@+id/radio_female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/female"
+                android:layout_weight="1"
+                android:onClick="onRadioButtonClicked"/>
+        </RadioGroup>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_marginBottom="25dp"
+                android:id="@+id/introduction"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:minLines="2"
+                android:maxLines="4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/introduction" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <CheckBox android:id="@+id/checkbox_tennis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tennis"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/checkbox_gokart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gokart"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/checkbox_running"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/running"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/checkbox_cardgames"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cardgames"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/checkbox_cinema"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cinema"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/checkbox_theater"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/theater"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/checkbox_citywalks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/citywalks"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox android:id="@+id/checkbox_hiking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hiking"
+            android:onClick="onCheckboxClicked"/>
+
+        <Button
+            android:layout_marginBottom="20dp"
+            android:id="@+id/save_profile"
+            style="?android:textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="@string/save"
+            android:textStyle="bold"
+            android:background="@color/tealBlue"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+</ScrollView>
