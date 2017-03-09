@@ -43,16 +43,22 @@ public class APIController {
         return json;
     }
 
-
-    public static String postHttpData(String url, String json) throws IOException {
-        OkHttpClient client = new OkHttpClient();
-
+    public static Request requestBuilder(String url, String json){
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
+        return request;
+    }
+
+
+    public static String postHttpData(String url, String json) throws IOException {
+
+        OkHttpClient client = new OkHttpClient();
+        Request request = (requestBuilder(url, json));
+
         okhttp3.Response response = client.newCall(request).execute();
         String responseBody = response.body().string();
         Log.d(TAG, "postHttpData: " + url + " -> " + responseBody);
