@@ -19,10 +19,12 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class APIController {
     private static final String TAG = APIController.class.getSimpleName();
@@ -53,13 +55,28 @@ public class APIController {
         return request;
     }
 
+    public static String getHttpData(String url) throws IOException {
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        Response response = client.newCall(request).execute();
+        String responseBody = response.body().string();
+        Log.d(TAG, "getHttpData: " + url + " -> " + responseBody);
+        return responseBody;
+    }
+
 
     public static String postHttpData(String url, String json) throws IOException {
 
-        OkHttpClient client = new OkHttpClient();
         Request request = (requestBuilder(url, json));
 
-        okhttp3.Response response = client.newCall(request).execute();
+        OkHttpClient client = new OkHttpClient();
+
+        Response response = client.newCall(request).execute();
         String responseBody = response.body().string();
         Log.d(TAG, "postHttpData: " + url + " -> " + responseBody);
         return responseBody;

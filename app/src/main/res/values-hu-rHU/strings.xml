@@ -12,11 +12,10 @@
     <string name="error_incorrect_email">Helytelen email cím</string>
     <string name="error_already_registered">Erre az email címre már van regisztrált felhasználó</string>
     <string name="error_field_required">Ez a mező szükséges</string>
-    <string name="logout">Kijelentkezés</string>
     <string name="error_server">Probléma adódott a szerverrel. Próbáld újra később.</string>
     <string name="error_no_connection">Ehhez a művelethez hálózati hozzáférés szükséges. Csatlakozzon egy WiFi hálózathoz vagy kapcsolja be az adatforgalmat.</string>
-    <string name="profile">Adatlap</string>
-    <string name="home">Főoldal</string>
+
+    <!-- Strings related to profile -->
     <string name="first_name">Keresztnév</string>
     <string name="last_name">Vezetéknév</string>
     <string name="language">Nyelv</string>
@@ -24,6 +23,8 @@
     <string name="male">Férfi</string>
     <string name="female">Nő</string>
     <string name="introduction">Bemutatkozás</string>
+
+    <!-- Strings related to interests -->
     <string name="tennis">Teniszezés</string>
     <string name="gokart">Gokartozás</string>
     <string name="running">Futás</string>
@@ -32,7 +33,23 @@
     <string name="theater">Színház</string>
     <string name="citywalks">Városnézés</string>
     <string name="hiking">Kirándulás</string>
+
+    <!-- Strings related to creating new event -->
     <string name="save">Mentés</string>
+    <string name="name_of_event">Nevezd el az eseményt</string>
+    <string name="event_where">Hol lesz az esemény?</string>
+    <string name="event_when">Mikor lesz az esemény?</string>
+    <string name="event_amount_of_participants">Hányan vehetnek részt az eseményen?</string>
+    <string name="create">Létrehozás</string>
+    <string name="event_description">Esemény leírása (választható)</string>
+    <string name="activity_spinner_options">Válasz egy tevékenységet</string>
+
+
+    <!-- Strings related to menu -->
+    <string name="logout">Kijelentkezés</string>
+    <string name="profile">Adatlap</string>
+    <string name="home">Főoldal</string>
+    <string name="new_event">Új esemény létrehozása</string>
 
 
 </resources>

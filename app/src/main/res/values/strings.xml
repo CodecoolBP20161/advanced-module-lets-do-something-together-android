@@ -12,11 +12,10 @@
     <string name="error_incorrect_email">Email is incorrect</string>
     <string name="error_already_registered">This email address is already in use</string>
     <string name="error_field_required">This field is required</string>
-    <string name="logout">Logout</string>
     <string name="error_server">There has been a problem with the server. Please try again later.</string>
     <string name="error_no_connection">This action requires network access. Please connect to a nearby WiFi or enable data traffic.</string>
-    <string name="profile">Profile</string>
-    <string name="home">Home page</string>
+
+    <!-- Strings related to profile -->
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
     <string name="language">Language</string>
@@ -24,6 +23,9 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="introduction">Introduction</string>
+    <string name="save">Save</string>
+
+    <!-- Strings related to interests -->
     <string name="tennis">Tennis</string>
     <string name="gokart">Gokart</string>
     <string name="running">Running</string>
@@ -32,10 +34,33 @@
     <string name="theater">Theater</string>
     <string name="citywalks">Sightseeing</string>
     <string name="hiking">Hiking</string>
-    <string name="save">Save</string>
+
+    <string-array name="interests">
+        <item>@string/tennis</item>
+        <item>@string/gokart</item>
+        <item>@string/running</item>
+        <item>@string/cardgames</item>
+        <item>@string/cinema</item>
+        <item>@string/theater</item>
+        <item>@string/citywalks</item>
+        <item>@string/hiking</item>
+    </string-array>
+
+    <!-- Strings related to creating new event -->
+    <string name="name_of_event">Give a name to the event</string>
+    <string name="event_where">Where will the event take place?</string>
+    <string name="event_when">When will the event take place?</string>
+    <string name="event_amount_of_participants">How many can participate in the event?</string>
+    <string name="create">Create</string>
+    <string name="event_description">Describe the event (optional)</string>
+    <string name="activity_spinner_options">Select an activity</string>
 
 
-
+    <!-- Strings related to menu -->
+    <string name="logout">Logout</string>
+    <string name="profile">Profile</string>
+    <string name="home">Home page</string>
+    <string name="new_event">Create new event</string>
 
 
 

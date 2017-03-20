@@ -43,6 +43,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    protected boolean goToNewEvent(View view){
+        Intent intent = new Intent(MainActivity.this, AddNewEventActivity.class);
+        startActivity(intent);
+        return true;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -57,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
                 return goToProfile(this.findViewById(R.id.action_to_profile));
             case R.id.action_logout:
                 return logout(this.findViewById(R.id.action_logout));
+            case R.id.action_new_event:
+                return goToNewEvent(this.findViewById(R.id.action_new_event));
 
         }
         return false;
