@@ -7,7 +7,9 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+import android.widget.Button;
 
+import com.codecool.actimate.R;
 import com.codecool.actimate.view.LoginActivity;
 
 import org.json.JSONException;
@@ -96,13 +98,24 @@ public class APIController {
         try {
             String response = APIController.postHttpData(url,
                     APIController.createJson(data).toString());
-            if (response.equals("success")) {
-                return true;
-            } else if (response.equals("wrong password")) {
-                LoginActivity.setStatus("wrong password");
-            } else {
-                LoginActivity.setStatus("wrong email");
+            try {
+                JSONObject jsonObj = new JSONObject(response);
+
+                switch (jsonObj.getString("status")){
+                    case "success":
+                        return true;
+                    case "wrong password":
+                        LoginActivity.setStatus("wrong password");
+                        return false;
+                    case "wrong email":
+                        LoginActivity.setStatus("wrong email");
+                        return false;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -131,4 +144,6 @@ public class APIController {
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
     }
+
+
 }
