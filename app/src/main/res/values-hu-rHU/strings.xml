@@ -36,13 +36,16 @@
 
     <!-- Strings related to creating new event -->
     <string name="save">Mentés</string>
-    <string name="name_of_event">Nevezd el az eseményt</string>
-    <string name="event_where">Hol lesz az esemény?</string>
-    <string name="event_when">Mikor lesz az esemény?</string>
-    <string name="event_amount_of_participants">Hányan vehetnek részt az eseményen?</string>
+    <string name="name_of_event">Esemény neve</string>
+    <string name="event_where">Esemény helye</string>
+    <string name="event_amount_of_participants">Hány résztvevő?</string>
     <string name="create">Létrehozás</string>
-    <string name="event_description">Esemény leírása (választható)</string>
-    <string name="activity_spinner_options">Válasz egy tevékenységet</string>
+    <string name="event_description">Az eseményről</string>
+    <string name="activity_spinner_options">Válassz egy tevékenységet</string>
+    <string name="set_time">Idő</string>
+    <string name="set_date">Dátum</string>
+
+
 
 
     <!-- Strings related to menu -->

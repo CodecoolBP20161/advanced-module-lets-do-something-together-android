@@ -3,17 +3,36 @@ package com.codecool.actimate.view;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import com.codecool.actimate.R;
 import com.codecool.actimate.controller.APIController;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 
 public class AddNewEventActivity extends AppCompatActivity {
 
@@ -22,46 +41,55 @@ public class AddNewEventActivity extends AppCompatActivity {
     private static SharedPreferences mSharedPreferences;
     private Context context;
 
-//    String interestOptions[] = {getResources().getString(R.string.tennis),
-//            getResources().getString(R.string.gokart), getResources().getString(R.string.running),
-//            getResources().getString(R.string.cardgames), getResources().getString(R.string.cinema),
-//            getResources().getString(R.string.theater), getResources().getString(R.string.citywalks),
-//            getResources().getString(R.string.hiking)};
-
-//    String interestOptions[]= getResources().getStringArray(R.array.interests);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_event);
 
-        String interestOptions[]= getResources().getStringArray(R.array.interests);
+        String interestOptions[] = getResources().getStringArray(R.array.interests);
 
 
-        Spinner mySpinner = (Spinner)findViewById(R.id.activity_spinner);
+        Spinner mySpinner = (Spinner) findViewById(R.id.activity_spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 R.layout.row, R.id.interest_options, interestOptions);
         mySpinner.setAdapter(adapter);
     }
 
-    protected boolean logout(View view){
+    protected boolean logout(View view) {
         APIController.setLoggedOut(mSharedPreferences);
         Intent intent = new Intent(AddNewEventActivity.this, LoginActivity.class);
         startActivity(intent);
         return true;
     }
 
-    protected boolean goToProfile(View view){
+    protected boolean goToProfile(View view) {
         Intent intent = new Intent(AddNewEventActivity.this, EditProfileActivity.class);
         startActivity(intent);
         return true;
     }
 
-    protected boolean goToHome(View view){
+    protected boolean goToHome(View view) {
         Intent intent = new Intent(AddNewEventActivity.this, MainActivity.class);
         startActivity(intent);
         return true;
     }
+
+    public void showTimePickerDialog(View v) {
+        android.support.v4.app.DialogFragment newFragment = new TimePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    public void setButtonText(int id, String text) {
+        Button button = (Button) findViewById(id);
+        button.setText(text);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -83,5 +111,4 @@ public class AddNewEventActivity extends AppCompatActivity {
         }
         return false;
     }
-
 }

@@ -47,13 +47,15 @@
     </string-array>
 
     <!-- Strings related to creating new event -->
-    <string name="name_of_event">Give a name to the event</string>
-    <string name="event_where">Where will the event take place?</string>
-    <string name="event_when">When will the event take place?</string>
-    <string name="event_amount_of_participants">How many can participate in the event?</string>
+    <string name="name_of_event">Name of the event</string>
+    <string name="event_where">Place of the event</string>
+    <string name="event_amount_of_participants">How many participants?</string>
     <string name="create">Create</string>
-    <string name="event_description">Describe the event (optional)</string>
+    <string name="event_description">About the event</string>
     <string name="activity_spinner_options">Select an activity</string>
+    <string name="set_time">Time</string>
+    <string name="set_date">Date</string>
+
 
 
     <!-- Strings related to menu -->
