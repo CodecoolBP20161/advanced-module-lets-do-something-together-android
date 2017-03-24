@@ -51,6 +51,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private final static String PREFS_KEY = "com.codecool.actimate.preferences";
     private static SharedPreferences mSharedPreferences;
     private static String status;
+
+    public static String getToken() {
+        return token;
+    }
+
+    public static void setToken(String token) {
+        LoginActivity.token = token;
+    }
+
+    private static String token;
 //    private final static String URL = "https://actimate.herokuapp.com";
     private final static String URL = "http://192.168.161.66:8080";
 
@@ -78,8 +88,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
         Context context = LoginActivity.this;
         mSharedPreferences = context.getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE);
-        Log.d(TAG, "onCreate: loggedIn: " + mSharedPreferences.getBoolean("loggedIn", false));
-        if (mSharedPreferences.getBoolean("loggedIn", false)){
+        Log.d(TAG, "onCreate: token " + mSharedPreferences.getString("token", null));
+        if (mSharedPreferences.getString("token", null) != null){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         }
@@ -321,7 +331,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-               APIController.setLoggedIn(mSharedPreferences);
+               APIController.setLoggedIn(mSharedPreferences, token);
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             } else {

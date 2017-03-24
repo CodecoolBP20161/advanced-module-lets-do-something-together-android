@@ -85,13 +85,13 @@ public class APIController {
     }
 
     public static void setLoggedOut(SharedPreferences mSharedPreferences) {
-        mSharedPreferences.edit().putBoolean("loggedIn", false).apply();
-        Log.d(TAG, "setLoggedOut: loggedIn = " + mSharedPreferences.getBoolean("loggedIn", false));
+        mSharedPreferences.edit().putString("token", null).apply();
+        Log.d(TAG, "setLoggedOut: token = " + mSharedPreferences.getString("token", null));
     }
 
-    public static void setLoggedIn(SharedPreferences mSharedPreferences) {
-        mSharedPreferences.edit().putBoolean("loggedIn", true).apply();
-        Log.d(TAG, "setLoggedIn: loggedIn = " + mSharedPreferences.getBoolean("loggedIn", false));
+    public static void setLoggedIn(SharedPreferences mSharedPreferences, String token) {
+        mSharedPreferences.edit().putString("token", token).apply();
+        Log.d(TAG, "setLoggedIn: token = " + mSharedPreferences.getString("token", null));
     }
 
     public static Boolean tryToLogin(String url, HashMap data){
@@ -101,8 +101,12 @@ public class APIController {
             try {
                 JSONObject jsonObj = new JSONObject(response);
 
+
+
                 switch (jsonObj.getString("status")){
                     case "success":
+                        String token = jsonObj.getString("token");
+                        LoginActivity.setToken(token);
                         return true;
                     case "wrong password":
                         LoginActivity.setStatus("wrong password");
