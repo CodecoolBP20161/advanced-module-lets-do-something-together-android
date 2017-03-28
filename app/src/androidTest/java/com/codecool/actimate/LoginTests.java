@@ -46,7 +46,7 @@ public class LoginTests {
     @Test
     public void emailIsEmpty() {
 
-        onView(withId(R.id.email)).perform(clearText());
+        onView(withId(R.id.email)).perform(clearText(), closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(click());
         onView(withId(R.id.email))
                 .check(matches(simulateEmptyInputError(
@@ -54,7 +54,7 @@ public class LoginTests {
 
     }
 
-    public static Matcher<View> simulateEmptyInputError(final String string) {
+    public static Matcher<View> simulateEmptyInputError(String string) {
         return simulateEmptyInputError(is(string));
     }
 
