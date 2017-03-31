@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         context = MainActivity.this;
         mSharedPreferences = context.getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE);
-        Log.d(TAG, "onCreate: loggedIn: " + mSharedPreferences.getBoolean("loggedIn", false));
+        Log.d(TAG, "onCreate: token " + mSharedPreferences.getString("token", null));
     }
 
     protected boolean logout(View view){
@@ -39,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
 
     protected boolean goToProfile(View view){
         Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
+        startActivity(intent);
+        return true;
+    }
+
+    protected boolean goToNewEvent(View view){
+        Intent intent = new Intent(MainActivity.this, AddNewEventActivity.class);
         startActivity(intent);
         return true;
     }
@@ -57,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
                 return goToProfile(this.findViewById(R.id.action_to_profile));
             case R.id.action_logout:
                 return logout(this.findViewById(R.id.action_logout));
+            case R.id.action_new_event:
+                return goToNewEvent(this.findViewById(R.id.action_new_event));
 
         }
         return false;

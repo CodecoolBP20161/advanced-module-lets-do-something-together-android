@@ -87,9 +87,8 @@
                 android:layout_marginBottom="25dp"
                 android:id="@+id/introduction"
                 android:inputType="textMultiLine"
-                android:lines="3"
-                android:minLines="2"
-                android:maxLines="4"
+                android:lines="4"
+                android:minLines="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/introduction" />
@@ -138,10 +137,11 @@
             android:onClick="onCheckboxClicked"/>
 
         <Button
+            android:layout_marginTop="25dp"
             android:layout_marginBottom="20dp"
             android:id="@+id/save_profile"
             style="?android:textAppearanceSmall"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:text="@string/save"

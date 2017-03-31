@@ -7,7 +7,9 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+import android.widget.Button;
 
+import com.codecool.actimate.R;
 import com.codecool.actimate.view.LoginActivity;
 
 import org.json.JSONException;
@@ -19,10 +21,12 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class APIController {
     private static final String TAG = APIController.class.getSimpleName();
@@ -43,43 +47,79 @@ public class APIController {
         return json;
     }
 
-
-    public static String postHttpData(String url, String json) throws IOException {
-        OkHttpClient client = new OkHttpClient();
-
+    public static Request requestBuilder(String url, String json){
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
-        okhttp3.Response response = client.newCall(request).execute();
+        return request;
+    }
+
+    public static String getHttpData(String url) throws IOException {
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        Response response = client.newCall(request).execute();
+        String responseBody = response.body().string();
+        Log.d(TAG, "getHttpData: " + url + " -> " + responseBody);
+        return responseBody;
+    }
+
+
+    public static String postHttpData(String url, String json) throws IOException {
+
+        Request request = (requestBuilder(url, json));
+
+        OkHttpClient client = new OkHttpClient();
+
+        Response response = client.newCall(request).execute();
         String responseBody = response.body().string();
         Log.d(TAG, "postHttpData: " + url + " -> " + responseBody);
         return responseBody;
     }
 
     public static void setLoggedOut(SharedPreferences mSharedPreferences) {
-        mSharedPreferences.edit().putBoolean("loggedIn", false).apply();
-        Log.d(TAG, "setLoggedOut: loggedIn = " + mSharedPreferences.getBoolean("loggedIn", false));
+        mSharedPreferences.edit().putString("token", null).apply();
+        Log.d(TAG, "setLoggedOut: token = " + mSharedPreferences.getString("token", null));
     }
 
-    public static void setLoggedIn(SharedPreferences mSharedPreferences) {
-        mSharedPreferences.edit().putBoolean("loggedIn", true).apply();
-        Log.d(TAG, "setLoggedIn: loggedIn = " + mSharedPreferences.getBoolean("loggedIn", false));
+    public static void setLoggedIn(SharedPreferences mSharedPreferences, String token) {
+        mSharedPreferences.edit().putString("token", token).apply();
+        Log.d(TAG, "setLoggedIn: token = " + mSharedPreferences.getString("token", null));
     }
 
     public static Boolean tryToLogin(String url, HashMap data){
         try {
             String response = APIController.postHttpData(url,
                     APIController.createJson(data).toString());
-            if (response.equals("success")) {
-                return true;
-            } else if (response.equals("wrong password")) {
-                LoginActivity.setStatus("wrong password");
-            } else {
-                LoginActivity.setStatus("wrong email");
+            try {
+                JSONObject jsonObj = new JSONObject(response);
+
+
+
+                switch (jsonObj.getString("status")){
+                    case "success":
+                        String token = jsonObj.getString("token");
+                        LoginActivity.setToken(token);
+                        return true;
+                    case "wrong password":
+                        LoginActivity.setStatus("wrong password");
+                        return false;
+                    case "wrong email":
+                        LoginActivity.setStatus("wrong email");
+                        return false;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -108,4 +148,6 @@ public class APIController {
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
     }
+
+
 }
