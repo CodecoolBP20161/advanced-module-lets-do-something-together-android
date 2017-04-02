@@ -55,6 +55,9 @@
     <string name="activity_spinner_options">Select an activity</string>
     <string name="set_time">Time</string>
     <string name="set_date">Date</string>
+    <string name="success">Event has been created</string>
+    <string name="fail">There has been an error</string>
+
 
 
 
