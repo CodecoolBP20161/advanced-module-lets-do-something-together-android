@@ -62,8 +62,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private static String token;
 //    private final static String URL = "https://actimate.herokuapp.com";
-//    private final static String URL = "http://192.168.161.109:8080";
-    private final static String URL = "http://192.168.0.196:8888";
+//    private final static String URL = "http://192.168.161.148:8888";
+    private final static String URL = "http://192.168.161.109:8080";
+//    private final static String URL = "http://192.168.0.196:8888";
 
 
     /**

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,12 +35,14 @@ public class AddNewEventActivity extends AppCompatActivity {
     private static SharedPreferences mSharedPreferences;
     private Context context = AddNewEventActivity.this;
 //    private final static String URL = "https://actimate.herokuapp.com";
-//    private final static String URL = "http://192.168.161.109:8080";
-    private final static String URL = "http://192.168.0.196:8888";
+//    private final static String URL = "http://192.168.161.148:8888";
+    private final static String URL = "http://192.168.161.109:8080";
+
+    //    private final static String URL = "http://192.168.0.196:8888";
     private static String TOKEN;
     private static String LOCATION;
     private static String LATLNG;
-    private PostEventDataToServer mSendData;
+    private EventTask mEventTask;
 
 
     @Override
@@ -156,35 +157,13 @@ public class AddNewEventActivity extends AppCompatActivity {
         return false;
     }
 
-    public String selectInterest(String interest) {
 
-        if (interest.equals(getResources().getString(R.string.tennis))){
-            return "tennis";
-        } else if (interest.equals(getResources().getString(R.string.gokart))){
-            return "gokart";
-        }  else if (interest.equals(getResources().getString(R.string.running))){
-            return "running";
-        }   else if (interest.equals(getResources().getString(R.string.cardgames))){
-            return "cardGames";
-        }   else if (interest.equals(getResources().getString(R.string.cinema))){
-            return "cinema";
-        }   else if (interest.equals(getResources().getString(R.string.theater))){
-            return "theater";
-        }   else if (interest.equals(getResources().getString(R.string.citywalks))){
-            return "cityWalks";
-        }   else if (interest.equals(getResources().getString(R.string.hiking))){
-            return "hiking";
-        }
-        return null;
-    }
-
-
-    public void buttonCreate(){
+    public void buttonCreate() {
         EditText mEdit = (EditText)findViewById(R.id.name_of_event);
         String mName = mEdit.getText().toString();
 
         Spinner mSpinner = (Spinner)findViewById(R.id.activity_spinner);
-        String mInterest = selectInterest(mSpinner.getSelectedItem().toString());
+        String mInterest = APIController.selectInterest(mSpinner.getSelectedItem().toString(), AddNewEventActivity.this);
 
         Log.d(TAG, "buttonCreate: " + mInterest);
 
@@ -206,12 +185,12 @@ public class AddNewEventActivity extends AppCompatActivity {
         mDate += mButton.getText().toString();
         mDate += ":00.000Z";
 
-        mSendData = new PostEventDataToServer(mName, mInterest, mLocation, mLat, mLng, mDate, mParticipants, mDescription);
-        mSendData.execute((Void) null);
+        mEventTask = new EventTask(mName, mInterest, mLocation, mLat, mLng, mDate, mParticipants, mDescription);
+        mEventTask.execute((Void) null);
 
     }
 
-    public class PostEventDataToServer extends AsyncTask<Void, Void, Boolean> {
+    public class EventTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mName;
         private final String mInterest;
@@ -224,7 +203,7 @@ public class AddNewEventActivity extends AppCompatActivity {
         private Boolean status;
 
 
-        PostEventDataToServer(String name, String interest, String location, Float lat, Float lng,
+        EventTask(String name, String interest, String location, Float lat, Float lng,
                               String date, Integer participants, String description) {
             mName = name;
             mInterest = interest;

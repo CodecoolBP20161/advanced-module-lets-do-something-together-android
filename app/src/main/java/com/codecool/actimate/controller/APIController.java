@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -32,6 +33,14 @@ import okhttp3.Response;
 
 public class APIController {
     private static final String TAG = APIController.class.getSimpleName();
+
+    public static JSONObject createJson(HashSet<String> dataSet) {
+        HashMap<String, String> data = new HashMap<>();
+        for (Iterator<String> i = dataSet.iterator(); i.hasNext(); ) {
+            data.put(i.toString(), "true");
+        }
+        return createJson(data);
+    }
 
     public static JSONObject createJson(HashMap<String, String> data) {
         Set set = data.entrySet();
@@ -202,5 +211,33 @@ public class APIController {
         ConnectivityManager manager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+    public static String selectInterest(String interest, Activity activity) {
+        if (interest.equals(activity.getResources().getString(R.string.tennis))){
+            return "tennis";
+        }
+        if (interest.equals(activity.getResources().getString(R.string.gokart))){
+            return "gokart";
+        }
+        if (interest.equals(activity.getResources().getString(R.string.running))){
+            return "running";
+        }
+        if (interest.equals(activity.getResources().getString(R.string.cardgames))){
+            return "cardGames";
+        }
+        if (interest.equals(activity.getResources().getString(R.string.cinema))){
+            return "cinema";
+        }
+        if (interest.equals(activity.getResources().getString(R.string.theater))){
+            return "theater";
+        }
+        if (interest.equals(activity.getResources().getString(R.string.citywalks))){
+            return "cityWalks";
+        }
+        if (interest.equals(activity.getResources().getString(R.string.hiking))){
+            return "hiking";
+        }
+        return null;
     }
 }

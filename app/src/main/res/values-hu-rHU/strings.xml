@@ -44,6 +44,8 @@
     <string name="activity_spinner_options">Válassz egy tevékenységet</string>
     <string name="set_time">Idő</string>
     <string name="set_date">Dátum</string>
+    <string name="success">Esemény létrehozva</string>
+    <string name="fail">Egy nem várt probléma adódott</string>
 
 
 
