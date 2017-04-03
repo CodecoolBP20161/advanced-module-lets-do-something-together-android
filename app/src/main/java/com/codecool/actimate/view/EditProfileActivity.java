@@ -6,35 +6,57 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codecool.actimate.R;
 import com.codecool.actimate.controller.APIController;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = EditProfileActivity.class.getSimpleName();
     private final static String PREFS_KEY = "com.codecool.actimate.preferences";
     private static SharedPreferences mSharedPreferences;
-    private Context context;
-    private final static String URL = "https://actimate.herokuapp.com";
+    private Context context = EditProfileActivity.this;
+//    private final static String URL = "https://actimate.herokuapp.com";
+//    private final static String URL = "http://192.168.161.148:8888";
+    private final static String URL = "http://192.168.161.109:8080";
+//    private final static String URL = "http://192.168.0.196:8888";
+    private static String TOKEN;
+    private static String GENDER;
+    private static HashSet<String> interestsSet = new HashSet<String>();
+    private ProfileTask mProfileTask;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-        context = EditProfileActivity.this;
         mSharedPreferences = context.getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE);
+        TOKEN = mSharedPreferences.getString("token", null);
+
+        final Button button = (Button) findViewById(R.id.save_profile);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                buttonUpdate();
+            }
+        });
     }
 
     public void onRadioButtonClicked(View view) {
@@ -46,26 +68,25 @@ public class EditProfileActivity extends AppCompatActivity {
             case R.id.radio_male:
                 if (checked)
                     // TODO implement male selected
+                    GENDER = "male";
                     break;
             case R.id.radio_female:
                 if (checked)
                     // TODO implement female selected
+                    GENDER = "female";
                     break;
         }
     }
     public void onCheckboxClicked(View view) {
         boolean checked = ((CheckBox) view).isChecked();
+        ((CheckBox) view).getText();
+        String id = APIController.selectInterest(((CheckBox) view).getText().toString(), this);
 
-        switch(view.getId()) {
-            case R.id.checkbox_tennis:
-                if (checked) {
-                    // TODO implement
-                } else {
-                    // TODO implement
-                }
-                break;
-            default:
-                break;
+        if (checked) {
+            interestsSet.add(id);
+            Log.d(TAG, "onCheckboxClicked: CHECKED -> " + id);
+        } else {
+            interestsSet.remove(id);
         }
     }
     protected boolean logout(View view){
@@ -107,20 +128,84 @@ public class EditProfileActivity extends AppCompatActivity {
         return false;
     }
 
-    private class LoadData extends AsyncTask<String, Void, String> {
-        public String data;
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                data = APIController.getHttpData("http://192.168.160.55:8888/interests");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
+    public void buttonUpdate() {
+        EditText mEdit = (EditText)findViewById(R.id.first_name);
+        String mFirstName = mEdit.getText().toString();
+
+        mEdit = (EditText)findViewById(R.id.last_name);
+        String mLastName = mEdit.getText().toString();
+
+        mEdit = (EditText)findViewById(R.id.language);
+        String mLanguage = mEdit.getText().toString();
+
+        String mGender = GENDER;
+
+        mEdit = (EditText)findViewById(R.id.introduction);
+        String mIntroduction = mEdit.getText().toString();
+
+        String mInterests = APIController.createJson(interestsSet).toString();
+
+        mProfileTask = new ProfileTask(mFirstName, mLastName, mLanguage, mGender, mIntroduction, mInterests);
+        mProfileTask.execute((Void) null);
+    }
+
+
+    public class ProfileTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String mFirstName;
+        private final String mLastName;
+        private final String mLanguage;
+        private final String mGender;
+        private final String mIntroduction;
+        private final String mInterests;
+        private Boolean status;
+
+
+        ProfileTask(String firstName, String lastName, String language, String gender,
+                    String introduction, String interests) {
+            mFirstName = firstName;
+            mLastName = lastName;
+            mLanguage = language;
+            mGender = gender;
+            mIntroduction = introduction;
+            mInterests = interests;
+
+        }
+
+        void toastError(String s) {
+            Toast.makeText(getApplicationContext(),
+                    s, Toast.LENGTH_LONG).show();
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected Boolean doInBackground(Void... params) {
+            HashMap<String, String> data = new HashMap<String, String>();
+            data.put("firstName", mFirstName);
+            data.put("lastName", mLastName);
+            data.put("gender", mGender);
+            data.put("language", mLanguage);
+            data.put("introduction", mIntroduction);
+            data.put("interests", mInterests);
+
+
+            if (!APIController.isNetworkAvailable(EditProfileActivity.this)) {
+                toastError(getResources().getString(R.string.error_no_connection));
+                return false;
+            }
+            status = APIController.tryToSendData(URL + "/u/edit-profile", data, TOKEN);
+            return status;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+
+            if (success) {
+                toastError(getResources().getString(R.string.success));
+                Intent intent = new Intent(EditProfileActivity.this, MainActivity.class);
+                startActivity(intent);
+            } else {
+                toastError(getResources().getString(R.string.fail));
+            }
         }
     }
 
