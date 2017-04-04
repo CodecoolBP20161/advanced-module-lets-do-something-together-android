@@ -35,10 +35,9 @@ public class AddNewEventActivity extends AppCompatActivity {
     private static SharedPreferences mSharedPreferences;
     private Context context = AddNewEventActivity.this;
 //    private final static String URL = "https://actimate.herokuapp.com";
-//    private final static String URL = "http://192.168.161.148:8888";
-    private final static String URL = "http://192.168.161.109:8080";
+    private final static String URL = "http://192.168.160.55:8888";
+//    private final static String URL = "http://192.168.161.109:8080";
 
-    //    private final static String URL = "http://192.168.0.196:8888";
     private static String TOKEN;
     private static String LOCATION;
     private static String LATLNG;
@@ -105,18 +104,21 @@ public class AddNewEventActivity extends AppCompatActivity {
         APIController.setLoggedOut(mSharedPreferences);
         Intent intent = new Intent(AddNewEventActivity.this, LoginActivity.class);
         startActivity(intent);
+        finish();
         return true;
     }
 
     protected boolean goToProfile(View view) {
         Intent intent = new Intent(AddNewEventActivity.this, EditProfileActivity.class);
         startActivity(intent);
+        finish();
         return true;
     }
 
     protected boolean goToHome(View view) {
         Intent intent = new Intent(AddNewEventActivity.this, MainActivity.class);
         startActivity(intent);
+        finish();
         return true;
     }
 
@@ -246,11 +248,12 @@ public class AddNewEventActivity extends AppCompatActivity {
         protected void onPostExecute(final Boolean success) {
 
             if (success) {
-                toastError(getResources().getString(R.string.success));
+                toastError(getResources().getString(R.string.event_success));
                 Intent intent = new Intent(AddNewEventActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             } else {
-                toastError(getResources().getString(R.string.fail));
+                toastError(getResources().getString(R.string.event_fail));
             }
         }
     }

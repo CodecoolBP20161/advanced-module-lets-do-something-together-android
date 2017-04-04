@@ -36,8 +36,8 @@ public class APIController {
 
     public static JSONObject createJson(HashSet<String> dataSet) {
         HashMap<String, String> data = new HashMap<>();
-        for (Iterator<String> i = dataSet.iterator(); i.hasNext(); ) {
-            data.put(i.toString(), "true");
+        for (String s: dataSet) {
+            data.put(s, "true");
         }
         return createJson(data);
     }
@@ -191,7 +191,7 @@ public class APIController {
                 JSONObject jsonObj = new JSONObject(response);
 
                 switch (jsonObj.getString("status")){
-                    case "Event saved into the database":
+                    case "success":
                         return true;
                     default:
                         return false;

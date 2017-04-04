@@ -62,9 +62,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private static String token;
 //    private final static String URL = "https://actimate.herokuapp.com";
-//    private final static String URL = "http://192.168.161.148:8888";
-    private final static String URL = "http://192.168.161.109:8080";
-//    private final static String URL = "http://192.168.0.196:8888";
+//    private final static String URL = "http://192.168.161.109:8080";
+    private final static String URL = "http://192.168.160.55:8888";
 
 
     /**
@@ -94,6 +93,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (mSharedPreferences.getString("token", null) != null){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
+            finish();
         }
         setupLoginForm();
 
@@ -339,6 +339,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                APIController.setLoggedIn(mSharedPreferences, token);
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             } else {
                 switch(status){
                     case "already registered":

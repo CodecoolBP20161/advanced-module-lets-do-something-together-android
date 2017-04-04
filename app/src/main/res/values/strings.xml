@@ -24,6 +24,8 @@
     <string name="female">Female</string>
     <string name="introduction">Introduction</string>
     <string name="save">Save</string>
+    <string name="profile_success">Profile has been updated</string>
+    <string name="profile_fail">There has been an unexpected error</string>
 
     <!-- Strings related to interests -->
     <string name="tennis">Tennis</string>
@@ -55,8 +57,8 @@
     <string name="activity_spinner_options">Select an activity</string>
     <string name="set_time">Time</string>
     <string name="set_date">Date</string>
-    <string name="success">Event has been created</string>
-    <string name="fail">There has been an unexpected error</string>
+    <string name="event_success">Event has been created</string>
+    <string name="event_fail">There has been an unexpected error</string>
 
 
 
