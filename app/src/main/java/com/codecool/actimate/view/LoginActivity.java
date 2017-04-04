@@ -62,7 +62,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private static String token;
 //    private final static String URL = "https://actimate.herokuapp.com";
-    private final static String URL = "http://192.168.161.66:8080";
+//    private final static String URL = "http://192.168.161.109:8080";
+    private final static String URL = "http://192.168.160.55:8888";
 
 
     /**
@@ -92,6 +93,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (mSharedPreferences.getString("token", null) != null){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
+            finish();
         }
         setupLoginForm();
 
@@ -105,7 +107,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin("/androidlogin");
+                    attemptLogin("/api-login");
                     return true;
                 }
                 return false;
@@ -115,7 +117,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin("/androidlogin");
+                attemptLogin("/api-login");
             }
         });
         Button mRegisterButton = (Button) findViewById(R.id.signup_button);
@@ -318,10 +320,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            if (mUrl.equals("/androidlogin")) {
+            if (mUrl.equals("/api-login")) {
                 return APIController.tryToLogin(URL + mUrl, data);
             } else {
-                return APIController.tryToRegister(URL + "/registration", data);
+                if (APIController.tryToRegister(URL + "/registration", data) == true) {
+                    return APIController.tryToLogin(URL + "/api-login", data);
+                }
+                return false;
             }
         }
 
@@ -334,6 +339,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                APIController.setLoggedIn(mSharedPreferences, token);
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             } else {
                 switch(status){
                     case "already registered":

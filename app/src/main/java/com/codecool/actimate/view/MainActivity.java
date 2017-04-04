@@ -34,18 +34,21 @@ public class MainActivity extends AppCompatActivity {
         APIController.setLoggedOut(mSharedPreferences);
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
+        finish();
         return true;
     }
 
     protected boolean goToProfile(View view){
         Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
         startActivity(intent);
+        finish();
         return true;
     }
 
     protected boolean goToNewEvent(View view){
         Intent intent = new Intent(MainActivity.this, AddNewEventActivity.class);
         startActivity(intent);
+        finish();
         return true;
     }
 
