@@ -33,37 +33,51 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:prompt="@string/activity_spinner_options"
-            />
+            android:layout_marginBottom="25dp"/>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/event_where"
+            <fragment
+                android:id="@+id/place_autocomplete_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
                 android:layout_marginBottom="25dp"
-                android:hint="@string/event_where"
-                android:inputType="text|textPostalAddress"
-                android:maxLines="1" />
+                />
+
+
 
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:layout_marginBottom="25dp"
-                android:id="@+id/event_when"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="25dp">
+            <Button
+                android:id="@+id/date_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/event_when"
-                android:maxLines="1"
-                android:inputType="date|datetime" />
+                android:text="@string/set_date"
+                android:onClick="showDatePickerDialog"
+                android:layout_weight="1"
+                android:background="@color/tealBlue"
+                android:textColor="@color/white"/>
 
-        </android.support.design.widget.TextInputLayout>
+            <Button
+                android:id="@+id/time_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/set_time"
+                android:onClick="showTimePickerDialog"
+                android:layout_weight="1"
+                android:background="@color/tealBlue"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"

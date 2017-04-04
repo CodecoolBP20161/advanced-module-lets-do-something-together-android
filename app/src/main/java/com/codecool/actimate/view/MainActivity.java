@@ -27,25 +27,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         context = MainActivity.this;
         mSharedPreferences = context.getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE);
-        Log.d(TAG, "onCreate: loggedIn: " + mSharedPreferences.getBoolean("loggedIn", false));
+        Log.d(TAG, "onCreate: token " + mSharedPreferences.getString("token", null));
     }
 
     protected boolean logout(View view){
         APIController.setLoggedOut(mSharedPreferences);
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
+        finish();
         return true;
     }
 
     protected boolean goToProfile(View view){
         Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
         startActivity(intent);
+        finish();
         return true;
     }
 
     protected boolean goToNewEvent(View view){
         Intent intent = new Intent(MainActivity.this, AddNewEventActivity.class);
         startActivity(intent);
+        finish();
         return true;
     }
 
