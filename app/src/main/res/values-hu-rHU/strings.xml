@@ -50,8 +50,6 @@
     <string name="event_fail">Egy nem várt hiba adódott</string>
 
 
-
-
     <!-- Strings related to menu -->
     <string name="logout">Kijelentkezés</string>
     <string name="profile">Adatlap</string>

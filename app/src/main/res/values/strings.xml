@@ -57,10 +57,9 @@
     <string name="activity_spinner_options">Select an activity</string>
     <string name="set_time">Time</string>
     <string name="set_date">Date</string>
+
     <string name="event_success">Event has been created</string>
     <string name="event_fail">There has been an unexpected error</string>
-
-
 
 
     <!-- Strings related to menu -->
@@ -68,7 +67,5 @@
     <string name="profile">Profile</string>
     <string name="home">Home page</string>
     <string name="new_event">Create new event</string>
-
-
 
 </resources>

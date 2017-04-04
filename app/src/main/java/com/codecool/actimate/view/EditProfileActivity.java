@@ -197,7 +197,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-
             if (success) {
                 toastError(getResources().getString(R.string.profile_success));
                 Intent intent = new Intent(EditProfileActivity.this, MainActivity.class);

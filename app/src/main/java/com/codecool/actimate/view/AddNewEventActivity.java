@@ -3,6 +3,7 @@ package com.codecool.actimate.view;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import android.os.AsyncTask;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,8 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 
 import java.util.HashMap;
 
+import java.util.HashMap;
+
 public class AddNewEventActivity extends AppCompatActivity {
 
     private static final String TAG = AddNewEventActivity.class.getSimpleName();
@@ -37,7 +40,6 @@ public class AddNewEventActivity extends AppCompatActivity {
 //    private final static String URL = "https://actimate.herokuapp.com";
     private final static String URL = "http://192.168.160.55:8888";
 //    private final static String URL = "http://192.168.161.109:8080";
-
     private static String TOKEN;
     private static String LOCATION;
     private static String LATLNG;
@@ -164,8 +166,6 @@ public class AddNewEventActivity extends AppCompatActivity {
         Spinner mSpinner = (Spinner)findViewById(R.id.activity_spinner);
         String mInterest = APIController.selectInterest(mSpinner.getSelectedItem().toString(), AddNewEventActivity.this);
 
-        Log.d(TAG, "buttonCreate: " + mInterest);
-
         String mLocation = LOCATION;
         String latLng[] = LATLNG.split(",");
         float mLat = Float.parseFloat(latLng[0]);
@@ -243,7 +243,6 @@ public class AddNewEventActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-
             if (success) {
                 toastError(getResources().getString(R.string.event_success));
                 Intent intent = new Intent(AddNewEventActivity.this, MainActivity.class);
@@ -255,3 +254,4 @@ public class AddNewEventActivity extends AppCompatActivity {
         }
     }
 }
+
