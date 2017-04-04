@@ -66,12 +66,10 @@ public class EditProfileActivity extends AppCompatActivity {
         switch(view.getId()) {
             case R.id.radio_male:
                 if (checked)
-                    // TODO implement male selected
                     GENDER = "male";
                     break;
             case R.id.radio_female:
                 if (checked)
-                    // TODO implement female selected
                     GENDER = "female";
                     break;
         }

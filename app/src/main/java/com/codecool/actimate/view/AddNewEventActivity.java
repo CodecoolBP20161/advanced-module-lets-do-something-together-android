@@ -85,7 +85,6 @@ public class AddNewEventActivity extends AppCompatActivity {
                 LATLNG = LATLNG.replace("lat/lng: (","");
                 LATLNG = LATLNG.replace(")","");
 
-                // TODO: Get info about the selected place.
                 Log.i(TAG, "Place: " + LOCATION + " - " + LATLNG);
             }
 
@@ -94,8 +93,6 @@ public class AddNewEventActivity extends AppCompatActivity {
                 // TODO: Handle the error.
                 Log.i(TAG, "An error occurred: " + status);
             }
-
-
         });
     }
 
