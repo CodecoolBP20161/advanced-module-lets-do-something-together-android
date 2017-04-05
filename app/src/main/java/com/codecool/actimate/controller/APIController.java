@@ -79,10 +79,11 @@ public class APIController {
         return request;
     }
 
-    public static String getHttpData(String url) throws IOException {
+    public static String getHttpData(String url, String token) throws IOException {
 
         Request request = new Request.Builder()
                 .url(url)
+                .addHeader("X-AUTH-TOKEN", token)
                 .build();
 
         OkHttpClient client = new OkHttpClient();
@@ -205,6 +206,30 @@ public class APIController {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static String tryToFetchData(String url, String token) {
+
+        String response = null;
+        try {
+            response = APIController.getHttpData(url, token);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        JSONObject jsonObj = null;
+        try {
+            jsonObj = new JSONObject(response);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String events = null;
+
+        if (jsonObj != null) {
+            return jsonObj.toString();
+        }
+        return null;
+
     }
 
     public static boolean isNetworkAvailable(Activity activity) {

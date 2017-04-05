@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.codecool.actimate.R;
 import com.codecool.actimate.controller.APIController;
@@ -19,6 +21,7 @@ import com.codecool.actimate.controller.APIController;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,9 +30,13 @@ public class MainActivity extends AppCompatActivity {
     private final static String PREFS_KEY = "com.codecool.actimate.preferences";
     private static SharedPreferences mSharedPreferences;
     private Context context;
-    private final static String RESP = "{\"events\":{\"12\":{\"date\":\"2017-04-04 11:19:02.757\",\"lng\":765,\"interest\":\"tennis\",\"name\":\"kjhg\",\"description\":\"gjkl\",\"location\":\"gj\",\"lat\":23,\"participants\":4},\"34\":{\"date\":\"2017-04-04 11:19:48.986\",\"lng\":87,\"interest\":\"running\",\"name\":\"ljkljk\",\"description\":\"lkjélkjélk\",\"location\":\"élkjélkj\",\"lat\":97,\"participants\":7},\"13\":{\"date\":\"2017-04-04 11:19:02.757\",\"lng\":765,\"interest\":\"tennis\",\"name\":\"kjhg\",\"description\":\"gjkl\",\"location\":\"gj\",\"lat\":23,\"participants\":4},\"35\":{\"date\":\"2017-04-04 11:19:48.986\",\"lng\":87,\"interest\":\"running\",\"name\":\"ljkljk\",\"description\":\"lkjélkjélk\",\"location\":\"élkjélkj\",\"lat\":97,\"participants\":7}}}";
+    private static String RESP = null;
+//    private static String RESP = "{\"events\":{\"12\":{\"date\":\"2017-04-04 11:19:02.757\",\"lng\":765,\"interest\":\"tennis\",\"name\":\"kjhg\",\"description\":\"gjkl\",\"location\":\"gj\",\"lat\":23,\"participants\":4},\"34\":{\"date\":\"2017-04-04 11:19:48.986\",\"lng\":87,\"interest\":\"running\",\"name\":\"ljkljk\",\"description\":\"lkjélkjélk\",\"location\":\"élkjélkj\",\"lat\":97,\"participants\":7},\"13\":{\"date\":\"2017-04-04 11:19:02.757\",\"lng\":765,\"interest\":\"tennis\",\"name\":\"kjhg\",\"description\":\"gjkl\",\"location\":\"gj\",\"lat\":23,\"participants\":4},\"35\":{\"date\":\"2017-04-04 11:19:48.986\",\"lng\":87,\"interest\":\"running\",\"name\":\"ljkljk\",\"description\":\"lkjélkjélk\",\"location\":\"élkjélkj\",\"lat\":97,\"participants\":7}}}";
 //    private final static String RESP = "{\"events\":{\"12\":{\"date\":\"2017-04-04 11:19:02.757\",\"lng\":765,\"interest\":\"tennis\",\"name\":\"kjhg\",\"description\":\"gjkl\",\"location\":\"gj\",\"lat\":23,\"participants\":4},\"34\":{\"date\":\"2017-04-04 11:19:48.986\",\"lng\":87,\"interest\":\"running\",\"name\":\"ljkljk\",\"description\":\"lkjélkjélk\",\"location\":\"élkjélkj\",\"lat\":97,\"participants\":7}}}";
     private static JSONObject JSON;
+    private static String TOKEN;
+    //    private final static String URL = "https://actimate.herokuapp.com";
+    private final static String URL = "http://192.168.160.55:8888";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,51 +44,58 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         context = MainActivity.this;
         mSharedPreferences = context.getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE);
-        Log.d(TAG, "onCreate: token " + mSharedPreferences.getString("token", null));
+        TOKEN = mSharedPreferences.getString("token", null);
 
-        try {
-            JSON = new JSONObject(RESP);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        EventCardsTask mEventCardsTask = new EventCardsTask();
+        mEventCardsTask.execute((Void) null);
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        JSONObject events;
-        try {
-            events = JSON.getJSONObject("events");
-        } catch (JSONException e) {
-            events = null;
-            e.printStackTrace();
-        }
-
-        Iterator<String> keys = events.keys();
-        while (keys.hasNext())
-        {
-            JSONObject value;
-            String key = keys.next();
+        Log.d(TAG, "RESP: " + RESP);
+        if (RESP != null) {
             try {
-                value = events.getJSONObject(key);
-            } catch (JSONException e) {
-                value = null;
-                e.printStackTrace();
-            }
-            try {
-                String name = value.getString("name");
-                String interest = this.getResources().getString(APIController.reverseSelectInterest(value.getString("interest")));
-                String date = value.getString("date").substring(0, 16).replace(" ", "\t");
-                String location = value.getString("location");
-
-                EventCardFragment fragment = new EventCardFragment();
-                fragment.setAttributes(name, interest, date, location);
-                fragmentTransaction.add(R.id.fragment_container, fragment);
+                JSON = new JSONObject(RESP);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            JSONObject events;
+            try {
+                events = JSON.getJSONObject("events");
+            } catch (JSONException e) {
+                events = null;
+                e.printStackTrace();
+            }
+
+
+            Iterator<String> keys = events.keys();
+            while (keys.hasNext())
+            {
+                JSONObject value;
+                String key = keys.next();
+                try {
+                    value = events.getJSONObject(key);
+                } catch (JSONException e) {
+                    value = null;
+                    e.printStackTrace();
+                }
+                try {
+                    String name = value.getString("name");
+                    String interest = this.getResources().getString(APIController.reverseSelectInterest(value.getString("interest")));
+                    String date = value.getString("date").substring(0, 16).replace(" ", "\t");
+                    String location = value.getString("location");
+
+                    EventCardFragment fragment = new EventCardFragment();
+                    fragment.setAttributes(name, interest, date, location);
+                    fragmentTransaction.add(R.id.fragment_container, fragment);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            fragmentTransaction.commit();
         }
-        fragmentTransaction.commit();
     }
 
     protected boolean logout(View view){
@@ -106,6 +120,13 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    protected boolean refreshHome(){
+        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+        return true;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -125,5 +146,39 @@ public class MainActivity extends AppCompatActivity {
 
         }
         return false;
+    }
+    private class EventCardsTask extends AsyncTask<Void, Void, Boolean> {
+        private String data;
+
+
+        void toastError(String s) {
+            Toast.makeText(getApplicationContext(),
+                    s, Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+
+
+            if (!APIController.isNetworkAvailable(MainActivity.this)) {
+                toastError(getResources().getString(R.string.error_no_connection));
+                return false;
+            }
+            data = APIController.tryToFetchData(URL + "/u/events", TOKEN);
+            return data != null;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success) {
+                if (!data.equals(RESP)) {
+                    RESP = data;
+                    refreshHome();
+                }
+            } else {
+                toastError(getResources().getString(R.string.event_fail));
+            }
+        }
     }
 }

@@ -29,7 +29,6 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 
 import java.util.HashMap;
 
-import java.util.HashMap;
 
 public class AddNewEventActivity extends AppCompatActivity {
 
