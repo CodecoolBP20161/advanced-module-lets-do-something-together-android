@@ -240,4 +240,27 @@ public class APIController {
         }
         return null;
     }
+
+    public static Integer reverseSelectInterest(String interest) {
+        switch (interest) {
+            case "tennis":
+                return R.string.tennis;
+            case "gokart":
+                return R.string.gokart;
+            case "running":
+                return R.string.running;
+            case "cardGames":
+                return R.string.cardgames;
+            case "cinema":
+                return R.string.cinema;
+            case "theater":
+                return R.string.theater;
+            case "cityWalks":
+                return R.string.citywalks;
+            case "hiking":
+                return R.string.hiking;
+            default:
+                return null;
+        }
+    }
 }

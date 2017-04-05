@@ -68,4 +68,13 @@
     <string name="home">Home page</string>
     <string name="new_event">Create new event</string>
 
+    <!-- Strings related to event cards -->
+    <string name="event_card_name">Name:</string>
+    <string name="event_card_activity">Activity:</string>
+    <string name="event_card_date">Date:</string>
+    <string name="event_card_location">Location:</string>
+
+
+
+
 </resources>

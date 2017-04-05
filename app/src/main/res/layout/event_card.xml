@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/event_card_bg"
+    android:id="@+id/event_card_fragment"
+    android:layout_margin="5dp">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/tealBlue"
+        android:layout_margin="5dp"
+        android:id="@+id/event_card_name">
+        <TextView
+            android:id="@+id/event_card_name_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="@string/event_card_name"
+            android:textColor="@color/white"
+            />
+        <TextView
+            android:id="@+id/event_card_name_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textColor="@color/white"
+
+            />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/tealBlue"
+        android:layout_margin="5dp"
+        android:id="@+id/event_card_activity">
+        <TextView
+            android:id="@+id/event_card_activity_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="@string/event_card_activity"
+            android:textColor="@color/white"
+            />
+        <TextView
+            android:id="@+id/event_card_activity_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textColor="@color/white"
+
+            />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/tealBlue"
+        android:layout_margin="5dp"
+        android:id="@+id/event_card_date">
+        <TextView
+            android:id="@+id/event_card_date_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="@string/event_card_date"
+            android:textColor="@color/white"
+            />
+        <TextView
+            android:id="@+id/event_card_date_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textColor="@color/white"
+
+            />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/tealBlue"
+        android:layout_margin="5dp"
+        android:id="@+id/event_card_location">
+        <TextView
+            android:id="@+id/event_card_location_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="@string/event_card_location"
+            android:textColor="@color/white"
+            />
+        <TextView
+            android:id="@+id/event_card_location_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textColor="@color/white"
+
+            />
+    </LinearLayout>
+</LinearLayout>

@@ -56,5 +56,11 @@
     <string name="home">Főoldal</string>
     <string name="new_event">Új esemény létrehozása</string>
 
+    <!-- Strings related to event cards -->
+    <string name="event_card_name">Név:</string>
+    <string name="event_card_activity">Tevékenység:</string>
+    <string name="event_card_date">Időpont:</string>
+    <string name="event_card_location">Hely:</string>
+
 
 </resources>

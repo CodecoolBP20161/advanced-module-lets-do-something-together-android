@@ -1,5 +1,7 @@
 package com.codecool.actimate.view;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,12 +16,20 @@ import android.view.View;
 import com.codecool.actimate.R;
 import com.codecool.actimate.controller.APIController;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Iterator;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private final static String PREFS_KEY = "com.codecool.actimate.preferences";
     private static SharedPreferences mSharedPreferences;
     private Context context;
+    private final static String RESP = "{\"events\":{\"12\":{\"date\":\"2017-04-04 11:19:02.757\",\"lng\":765,\"interest\":\"tennis\",\"name\":\"kjhg\",\"description\":\"gjkl\",\"location\":\"gj\",\"lat\":23,\"participants\":4},\"34\":{\"date\":\"2017-04-04 11:19:48.986\",\"lng\":87,\"interest\":\"running\",\"name\":\"ljkljk\",\"description\":\"lkjélkjélk\",\"location\":\"élkjélkj\",\"lat\":97,\"participants\":7},\"13\":{\"date\":\"2017-04-04 11:19:02.757\",\"lng\":765,\"interest\":\"tennis\",\"name\":\"kjhg\",\"description\":\"gjkl\",\"location\":\"gj\",\"lat\":23,\"participants\":4},\"35\":{\"date\":\"2017-04-04 11:19:48.986\",\"lng\":87,\"interest\":\"running\",\"name\":\"ljkljk\",\"description\":\"lkjélkjélk\",\"location\":\"élkjélkj\",\"lat\":97,\"participants\":7}}}";
+//    private final static String RESP = "{\"events\":{\"12\":{\"date\":\"2017-04-04 11:19:02.757\",\"lng\":765,\"interest\":\"tennis\",\"name\":\"kjhg\",\"description\":\"gjkl\",\"location\":\"gj\",\"lat\":23,\"participants\":4},\"34\":{\"date\":\"2017-04-04 11:19:48.986\",\"lng\":87,\"interest\":\"running\",\"name\":\"ljkljk\",\"description\":\"lkjélkjélk\",\"location\":\"élkjélkj\",\"lat\":97,\"participants\":7}}}";
+    private static JSONObject JSON;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +38,50 @@ public class MainActivity extends AppCompatActivity {
         context = MainActivity.this;
         mSharedPreferences = context.getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE);
         Log.d(TAG, "onCreate: token " + mSharedPreferences.getString("token", null));
+
+        try {
+            JSON = new JSONObject(RESP);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        JSONObject events;
+        try {
+            events = JSON.getJSONObject("events");
+        } catch (JSONException e) {
+            events = null;
+            e.printStackTrace();
+        }
+
+        Iterator<String> keys = events.keys();
+        while (keys.hasNext())
+        {
+            JSONObject value;
+            String key = keys.next();
+            try {
+                value = events.getJSONObject(key);
+            } catch (JSONException e) {
+                value = null;
+                e.printStackTrace();
+            }
+            try {
+                String name = value.getString("name");
+                String interest = this.getResources().getString(APIController.reverseSelectInterest(value.getString("interest")));
+                String date = value.getString("date").substring(0, 16).replace(" ", "\t");
+                String location = value.getString("location");
+
+                EventCardFragment fragment = new EventCardFragment();
+                fragment.setAttributes(name, interest, date, location);
+                fragmentTransaction.add(R.id.fragment_container, fragment);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+        fragmentTransaction.commit();
     }
 
     protected boolean logout(View view){
