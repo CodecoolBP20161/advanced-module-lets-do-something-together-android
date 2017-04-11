@@ -12,11 +12,11 @@ public class TextValidator {
     public static boolean isPasswordValid(String password) {
         boolean upperCase = false, lowerCase = false, number = false;
         for (int i = 0; i < password.length(); i++) {
-            if(Character.isUpperCase(password.charAt(i))){
+            if (Character.isUpperCase(password.charAt(i))) {
                 upperCase = true;
-            } else if (Character.isLowerCase(password.charAt(i))){
+            } else if (Character.isLowerCase(password.charAt(i))) {
                 lowerCase = true;
-            } else if (Character.isDigit(password.charAt(i))){
+            } else if (Character.isDigit(password.charAt(i))) {
                 number = true;
             }
         }

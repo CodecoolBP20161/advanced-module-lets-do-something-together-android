@@ -37,8 +37,9 @@ public class AddNewEventActivity extends AppCompatActivity {
     private static SharedPreferences mSharedPreferences;
     private Context context = AddNewEventActivity.this;
 //    private final static String URL = "https://actimate.herokuapp.com";
-    private final static String URL = "http://192.168.160.55:8888";
+//    private final static String URL = "http://192.168.160.55:8888";
 //    private final static String URL = "http://192.168.161.109:8080";
+    private static String URL;
     private static String TOKEN;
     private static String LOCATION;
     private static String LATLNG;
@@ -49,6 +50,8 @@ public class AddNewEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_event);
+
+        URL = getResources().getString(R.string.url);
 
         mSharedPreferences = context.getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE);
         TOKEN = mSharedPreferences.getString("token", null);
@@ -159,6 +162,7 @@ public class AddNewEventActivity extends AppCompatActivity {
 
 
     public void buttonCreate() {
+
         EditText mEdit = (EditText)findViewById(R.id.name_of_event);
         String mName = mEdit.getText().toString();
 
@@ -166,12 +170,20 @@ public class AddNewEventActivity extends AppCompatActivity {
         String mInterest = APIController.selectInterest(mSpinner.getSelectedItem().toString(), AddNewEventActivity.this);
 
         String mLocation = LOCATION;
-        String latLng[] = LATLNG.split(",");
-        float mLat = Float.parseFloat(latLng[0]);
-        float mLng = Float.parseFloat(latLng[1]);
+        float mLat = 0;
+        float mLng = 0;
+        if (LATLNG != null) {
+            String latLng[] = LATLNG.split(",");
+            mLat = Float.parseFloat(latLng[0]);
+            mLng = Float.parseFloat(latLng[1]);
+        }
 
         mEdit = (EditText)findViewById(R.id.event_amount_of_participants);
-        Integer mParticipants = Integer.parseInt(mEdit.getText().toString());
+
+        String mParticipants = null;
+        if (!mEdit.getText().toString().equals("")) {
+            mParticipants = (mEdit.getText().toString());
+        }
 
         mEdit = (EditText)findViewById(R.id.introduction);
         String mDescription = mEdit.getText().toString();
@@ -188,6 +200,11 @@ public class AddNewEventActivity extends AppCompatActivity {
 
     }
 
+//    void toastError(String s) {
+//        Toast.makeText(getApplicationContext(),
+//                s, Toast.LENGTH_LONG).show();
+//    }
+
     public class EventTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mName;
@@ -196,13 +213,14 @@ public class AddNewEventActivity extends AppCompatActivity {
         private final float mLat;
         private final float mLng;
         private final String mDate;
-        private final Integer mParticipants;
+        private final String mParticipants;
         private final String mDescription;
-        private Boolean status;
+        private String status;
+        private Boolean cancel = false;
 
 
         EventTask(String name, String interest, String location, Float lat, Float lng,
-                              String date, Integer participants, String description) {
+                              String date, String participants, String description) {
             mName = name;
             mInterest = interest;
             mLocation = location;
@@ -211,6 +229,10 @@ public class AddNewEventActivity extends AppCompatActivity {
             mDate = date;
             mParticipants = participants;
             mDescription = description;
+
+            if (mName == null  || mInterest == null || mLocation == null || mDate == null || mParticipants == null || mDescription == null) {
+                cancel = true;
+            }
 
         }
 
@@ -228,16 +250,20 @@ public class AddNewEventActivity extends AppCompatActivity {
             data.put("lat", Float.toString(mLat));
             data.put("lng", Float.toString(mLng));
             data.put("date", mDate);
-            data.put("participants", Integer.toString(mParticipants));
+            data.put("participants", (mParticipants));
             data.put("description", mDescription);
 
 
             if (!APIController.isNetworkAvailable(AddNewEventActivity.this)) {
-                toastError(getResources().getString(R.string.error_no_connection));
+                status = "no connection";
                 return false;
             }
-            status = APIController.tryToSendData(URL + "/u/create_event", data, TOKEN);
-            return status;
+            if (cancel) {
+                status = "cancel";
+                return false;
+
+            }
+            return APIController.tryToSendData(URL + "/u/create_event", data, TOKEN);
         }
 
         @Override
@@ -248,8 +274,26 @@ public class AddNewEventActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             } else {
-                toastError(getResources().getString(R.string.event_fail));
+                if (status == null) {
+                    status = "error";
+                }
+                onCancelled();
             }
+        }
+        @Override
+        protected void onCancelled() {
+            switch (status) {
+                case "no connection":
+                    toastError(getResources().getString(R.string.error_no_connection));
+                    break;
+                case "cancel":
+                    toastError(getResources().getString(R.string.error_missing_fields));
+                    break;
+                default:
+                    toastError(getResources().getString(R.string.event_fail));
+                    break;
+            }
+            mEventTask = null;
         }
     }
 }

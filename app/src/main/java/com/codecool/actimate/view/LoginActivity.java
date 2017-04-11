@@ -63,7 +63,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static String token;
 //    private final static String URL = "https://actimate.herokuapp.com";
 //    private final static String URL = "http://192.168.161.109:8080";
-    private final static String URL = "http://192.168.160.55:8888";
+//    private final static String URL = "http://192.168.160.55:8888";
+    private static String URL;
+
 
 
     /**
@@ -88,6 +90,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Context context = LoginActivity.this;
+
+        URL = getResources().getString(R.string.url);
+
         mSharedPreferences = context.getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE);
         Log.d(TAG, "onCreate: token " + mSharedPreferences.getString("token", null));
         if (mSharedPreferences.getString("token", null) != null){

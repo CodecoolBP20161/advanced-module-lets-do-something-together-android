@@ -35,7 +35,8 @@ public class EditProfileActivity extends AppCompatActivity {
     private Context context = EditProfileActivity.this;
 //    private final static String URL = "https://actimate.herokuapp.com";
 //    private final static String URL = "http://192.168.161.109:8080";
-    private final static String URL = "http://192.168.160.55:8888";
+//    private final static String URL = "http://192.168.160.55:8888";
+    private static String URL;
     private static String TOKEN;
     private static String GENDER;
     private static HashSet<String> interestsSet = new HashSet<>();
@@ -47,6 +48,9 @@ public class EditProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+
+        URL = getResources().getString(R.string.url);
+
         mSharedPreferences = context.getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE);
         TOKEN = mSharedPreferences.getString("token", null);
 

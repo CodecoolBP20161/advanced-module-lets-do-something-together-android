@@ -48,6 +48,8 @@
     <string name="set_date">Dátum</string>
     <string name="event_success">Esemény létrehozva</string>
     <string name="event_fail">Egy nem várt hiba adódott</string>
+    <string name="error_missing_fields">Töltse ki az összes mezőt a folytatáshoz</string>
+
 
 
     <!-- Strings related to menu -->
