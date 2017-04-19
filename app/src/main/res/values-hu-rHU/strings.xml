@@ -28,14 +28,16 @@
     <string name="profile_fail">Egy nem várt hiba adódott</string>
 
     <!-- Strings related to interests -->
-    <string name="tennis">Teniszezés</string>
-    <string name="gokart">Gokartozás</string>
-    <string name="running">Futás</string>
-    <string name="cardgames">Kártyajátékok</string>
-    <string name="cinema">Mozi</string>
-    <string name="theater">Színház</string>
-    <string name="citywalks">Városnézés</string>
-    <string name="hiking">Kirándulás</string>
+    <string name="ballGames">Labdajátékok</string>
+    <string name="boardGames">Társasjátékok</string>
+    <string name="cultural">Kulturális</string>
+    <string name="eSports">E-sportok</string>
+    <string name="indoorSports">Benti Sportok</string>
+    <string name="outdoorActivity">Kinti Tevékenységek</string>
+    <string name="outdoorSports">Kinti Sportok</string>
+    <string name="waterSports">Vízi Sportok</string>
+    <string name="winterSports">Téli Sportok</string>
+    <string name="other">Egyéb</string>
 
     <!-- Strings related to creating new event -->
     <string name="name_of_event">Esemény neve</string>

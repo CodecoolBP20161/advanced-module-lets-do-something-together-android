@@ -96,46 +96,60 @@
 
         </android.support.design.widget.TextInputLayout>
 
-        <CheckBox android:id="@+id/checkbox_tennis"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/tennis"
-            android:onClick="onCheckboxClicked"/>
-        <CheckBox android:id="@+id/checkbox_gokart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/gokart"
-            android:onClick="onCheckboxClicked"/>
-        <CheckBox android:id="@+id/checkbox_running"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/running"
-            android:onClick="onCheckboxClicked"/>
-        <CheckBox android:id="@+id/checkbox_cardgames"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cardgames"
-            android:onClick="onCheckboxClicked"/>
-        <CheckBox android:id="@+id/checkbox_cinema"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cinema"
-            android:onClick="onCheckboxClicked"/>
-        <CheckBox android:id="@+id/checkbox_theater"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/theater"
-            android:onClick="onCheckboxClicked"/>
-        <CheckBox android:id="@+id/checkbox_citywalks"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/citywalks"
-            android:onClick="onCheckboxClicked"/>
-        <CheckBox android:id="@+id/checkbox_hiking"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/hiking"
-            android:onClick="onCheckboxClicked"/>
+            android:orientation="vertical"
+            android:id="@+id/checkbox_container">
+
+            <!--<CheckBox android:id="@+id/checkbox_tennis"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/app_name"-->
+            <!--android:onClick="onCheckboxClicked"/>-->
+
+        </LinearLayout>
+
+        <!--<CheckBox android:id="@+id/checkbox_tennis"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/tennis"-->
+            <!--android:onClick="onCheckboxClicked"/>-->
+        <!--<CheckBox android:id="@+id/checkbox_gokart"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/gokart"-->
+            <!--android:onClick="onCheckboxClicked"/>-->
+        <!--<CheckBox android:id="@+id/checkbox_running"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/running"-->
+            <!--android:onClick="onCheckboxClicked"/>-->
+        <!--<CheckBox android:id="@+id/checkbox_cardgames"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/cardgames"-->
+            <!--android:onClick="onCheckboxClicked"/>-->
+        <!--<CheckBox android:id="@+id/checkbox_cinema"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/cinema"-->
+            <!--android:onClick="onCheckboxClicked"/>-->
+        <!--<CheckBox android:id="@+id/checkbox_theater"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/theater"-->
+            <!--android:onClick="onCheckboxClicked"/>-->
+        <!--<CheckBox android:id="@+id/checkbox_citywalks"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/citywalks"-->
+            <!--android:onClick="onCheckboxClicked"/>-->
+        <!--<CheckBox android:id="@+id/checkbox_hiking"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/hiking"-->
+            <!--android:onClick="onCheckboxClicked"/>-->
 
         <Button
             android:layout_marginTop="25dp"

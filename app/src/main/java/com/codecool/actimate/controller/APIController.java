@@ -14,10 +14,13 @@ import com.codecool.actimate.view.AddNewEventActivity;
 import com.codecool.actimate.view.LoginActivity;
 import com.codecool.actimate.view.MainActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -34,12 +37,12 @@ import okhttp3.Response;
 public class APIController {
     private static final String TAG = APIController.class.getSimpleName();
 
-    public static JSONObject createJson(HashSet<String> dataSet) {
-        HashMap<String, String> data = new HashMap<>();
+    public static JSONArray createJson(HashSet<String> dataSet) {
+        ArrayList<String> data = new ArrayList<>();
         for (String s: dataSet) {
-            data.put(s, "true");
+            data.add(s);
         }
-        return createJson(data);
+        return new JSONArray(data);
     }
 
     public static JSONObject createJson(HashMap<String, String> data) {
@@ -49,7 +52,9 @@ public class APIController {
         try {
             while(iterator.hasNext()) {
                 Map.Entry mapEntry = (Map.Entry)iterator.next();
-                json.accumulate(mapEntry.getKey().toString(), mapEntry.getValue().toString());
+
+                Log.d(TAG, "createJson: "+ mapEntry.getClass().toString());
+                json.accumulate(mapEntry.getKey().toString(), mapEntry.getValue());
             }
 
         } catch (JSONException e) {
@@ -188,6 +193,7 @@ public class APIController {
         try {
             String response = APIController.postHttpData(url,
                     APIController.createJson(data).toString(), token);
+            Log.d(TAG, "SENDING TO SERVER" + APIController.createJson(data).toString());
             try {
                 JSONObject jsonObj = new JSONObject(response);
 
@@ -223,8 +229,6 @@ public class APIController {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String events = null;
-
         if (jsonObj != null) {
             return jsonObj.toString();
         }
@@ -239,53 +243,61 @@ public class APIController {
     }
 
     public static String selectInterest(String interest, Activity activity) {
-        if (interest.equals(activity.getResources().getString(R.string.tennis))){
-            return "tennis";
+        // TODO check for more elegant fix
+        if (interest.equals(activity.getResources().getString(R.string.ballGames))){
+            return "ballGames";
         }
-        if (interest.equals(activity.getResources().getString(R.string.gokart))){
-            return "gokart";
+        if (interest.equals(activity.getResources().getString(R.string.boardGames))){
+            return "boardGames";
         }
-        if (interest.equals(activity.getResources().getString(R.string.running))){
-            return "running";
+        if (interest.equals(activity.getResources().getString(R.string.cultural))){
+            return "cultural";
         }
-        if (interest.equals(activity.getResources().getString(R.string.cardgames))){
-            return "cardGames";
+        if (interest.equals(activity.getResources().getString(R.string.eSports))){
+            return "eSports";
         }
-        if (interest.equals(activity.getResources().getString(R.string.cinema))){
-            return "cinema";
+        if (interest.equals(activity.getResources().getString(R.string.indoorSports))){
+            return "indoorSports";
         }
-        if (interest.equals(activity.getResources().getString(R.string.theater))){
-            return "theater";
+        if (interest.equals(activity.getResources().getString(R.string.outdoorActivity))){
+            return "outdoorActivity";
         }
-        if (interest.equals(activity.getResources().getString(R.string.citywalks))){
-            return "cityWalks";
+        if (interest.equals(activity.getResources().getString(R.string.outdoorSports))){
+            return "outdoorSports";
         }
-        if (interest.equals(activity.getResources().getString(R.string.hiking))){
-            return "hiking";
+        if (interest.equals(activity.getResources().getString(R.string.waterSports))){
+            return "waterSports";
+        }
+        if (interest.equals(activity.getResources().getString(R.string.winterSports))){
+            return "winterSports";
+        }
+        if (interest.equals(activity.getResources().getString(R.string.other))){
+            return "other";
         }
         return null;
     }
 
-    public static Integer reverseSelectInterest(String interest) {
-        switch (interest) {
-            case "tennis":
-                return R.string.tennis;
-            case "gokart":
-                return R.string.gokart;
-            case "running":
-                return R.string.running;
-            case "cardGames":
-                return R.string.cardgames;
-            case "cinema":
-                return R.string.cinema;
-            case "theater":
-                return R.string.theater;
-            case "cityWalks":
-                return R.string.citywalks;
-            case "hiking":
-                return R.string.hiking;
-            default:
-                return null;
-        }
+    public static Integer reverseSelectInterest(String interest, Context context) {
+//        switch (interest) {
+//            case "ballGames":
+//                return R.string.ballGames;
+//            case "boardGames":
+//                return R.string.boardGames;
+//            case "cultural":
+//                return R.string.cultural;
+//            case "eSports":
+//                return R.string.eSports;
+//            case "cinema":
+//                return R.string.cinema;
+//            case "theater":
+//                return R.string.theater;
+//            case "cityWalks":
+//                return R.string.citywalks;
+//            case "hiking":
+//                return R.string.hiking;
+//            default:
+//                return null;
+//        }
+        return context.getResources().getIdentifier(interest, "string", context.getPackageName());
     }
 }

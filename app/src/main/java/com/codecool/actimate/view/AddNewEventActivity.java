@@ -200,11 +200,6 @@ public class AddNewEventActivity extends AppCompatActivity {
 
     }
 
-//    void toastError(String s) {
-//        Toast.makeText(getApplicationContext(),
-//                s, Toast.LENGTH_LONG).show();
-//    }
-
     public class EventTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mName;

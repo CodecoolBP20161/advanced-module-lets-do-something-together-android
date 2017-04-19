@@ -11,18 +11,25 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codecool.actimate.R;
 import com.codecool.actimate.controller.APIController;
 
+import org.json.JSONArray;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -54,6 +61,30 @@ public class EditProfileActivity extends AppCompatActivity {
         mSharedPreferences = context.getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE);
         TOKEN = mSharedPreferences.getString("token", null);
 
+        String interestOptions[] = getResources().getStringArray(R.array.interests);
+
+        LinearLayout checkboxContainer = (LinearLayout) findViewById(R.id.checkbox_container);
+
+        LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        for(int i=0;i<interestOptions.length;i++){
+
+            CheckBox checkBox = new CheckBox(context);
+            checkBox.setLayoutParams(lparams);
+            checkBox.setText(interestOptions[i]);
+            Log.d(TAG, "onCreate: " + interestOptions[i]);
+            checkBox.setTag(APIController.selectInterest(interestOptions[i], this));
+            checkBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onCheckboxClicked(v);
+                }
+            });
+            checkboxContainer.addView(checkBox);
+
+        }
+
         final Button button = (Button) findViewById(R.id.save_profile);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -81,7 +112,6 @@ public class EditProfileActivity extends AppCompatActivity {
     public void onCheckboxClicked(View view) {
         boolean checked = ((CheckBox) view).isChecked();
         String id = APIController.selectInterest(((CheckBox) view).getText().toString(), this);
-
         if (checked) {
             interestsSet.add(id);
             Log.d(TAG, "onCheckboxClicked: CHECKED -> " + id);
@@ -146,7 +176,7 @@ public class EditProfileActivity extends AppCompatActivity {
         mEdit = (EditText)findViewById(R.id.introduction);
         String mIntroduction = mEdit.getText().toString();
 
-        String mInterests = APIController.createJson(interestsSet).toString();
+        JSONArray mInterests = APIController.createJson(interestsSet);
 
         mProfileTask = new ProfileTask(mFirstName, mLastName, mLanguage, mGender, mIntroduction, mInterests);
         mProfileTask.execute((Void) null);
@@ -160,12 +190,12 @@ public class EditProfileActivity extends AppCompatActivity {
         private final String mLanguage;
         private final String mGender;
         private final String mIntroduction;
-        private final String mInterests;
+        private final JSONArray mInterests;
         private Boolean status;
 
 
         ProfileTask(String firstName, String lastName, String language, String gender,
-                    String introduction, String interests) {
+                    String introduction, JSONArray interests) {
             mFirstName = firstName;
             mLastName = lastName;
             mLanguage = language;
@@ -182,13 +212,13 @@ public class EditProfileActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            HashMap<String, String> data = new HashMap<String, String>();
+            HashMap<String, Object> data = new HashMap<String, Object>();
             data.put("firstName", mFirstName);
             data.put("lastName", mLastName);
             data.put("gender", mGender);
             data.put("language", mLanguage);
             data.put("introduction", mIntroduction);
-            data.put("interests", mInterests);
+            data.put("interest", mInterests);
 
 
             if (!APIController.isNetworkAvailable(EditProfileActivity.this)) {

@@ -36,9 +36,6 @@ public class MainActivity extends AppCompatActivity {
 //    private static String RESP = "{\"events\":{\"12\":{\"date\":\"2017-04-04 11:19:02.757\",\"lng\":765,\"interest\":\"tennis\",\"name\":\"kjhg\",\"description\":\"gjkl\",\"location\":\"gj\",\"lat\":23,\"participants\":4},\"34\":{\"date\":\"2017-04-04 11:19:48.986\",\"lng\":87,\"interest\":\"running\",\"name\":\"ljkljk\",\"description\":\"lkjélkjélk\",\"location\":\"élkjélkj\",\"lat\":97,\"participants\":7},\"13\":{\"date\":\"2017-04-04 11:19:02.757\",\"lng\":765,\"interest\":\"tennis\",\"name\":\"kjhg\",\"description\":\"gjkl\",\"location\":\"gj\",\"lat\":23,\"participants\":4},\"35\":{\"date\":\"2017-04-04 11:19:48.986\",\"lng\":87,\"interest\":\"running\",\"name\":\"ljkljk\",\"description\":\"lkjélkjélk\",\"location\":\"élkjélkj\",\"lat\":97,\"participants\":7}}}";
     private static JSONObject JSON;
     private static String TOKEN;
-    //    private final static String URL = "https://actimate.herokuapp.com";
-//    private final static String URL = "http://192.168.160.55:8888";
-//    private final static String URL = "http://192.168.161.109:8080";
     private static String URL;
 
     @Override
@@ -66,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void reloadEventCards(String eventCards) {
+
         try {
             JSON = new JSONObject(eventCards);
         } catch (JSONException e) {
@@ -97,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             }
             try {
                 String name = value.getString("name");
-                String interest = this.getResources().getString(APIController.reverseSelectInterest(value.getString("interest")));
+                String interest = this.getResources().getString(APIController.reverseSelectInterest(value.getString("interest"), context));
                 String date = value.getString("date").substring(0, 16).replace(" ", "\t");
                 String location = value.getString("location");
 
@@ -109,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-//        fragmentTransaction.commit();
         fragmentTransaction.commitAllowingStateLoss();
     }
 
@@ -176,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
-                if (!data.equals(RESP)) {
+                if (!data.equals(RESP) && !data.equals("{}") ) {
                     RESP = data;
                     reloadEventCards(data);
                 }

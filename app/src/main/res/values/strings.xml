@@ -29,24 +29,28 @@
     <string name="profile_fail">There has been an unexpected error</string>
 
     <!-- Strings related to interests -->
-    <string name="tennis">Tennis</string>
-    <string name="gokart">Gokart</string>
-    <string name="running">Running</string>
-    <string name="cardgames">Card games</string>
-    <string name="cinema">Cinema</string>
-    <string name="theater">Theater</string>
-    <string name="citywalks">Sightseeing</string>
-    <string name="hiking">Hiking</string>
+    <string name="ballGames">Ball Games</string>
+    <string name="boardGames">Board Games</string>
+    <string name="cultural">Cultural</string>
+    <string name="eSports">E-sports</string>
+    <string name="indoorSports">Indoor Sports</string>
+    <string name="outdoorActivity">Outdoor Activities</string>
+    <string name="outdoorSports">Outdoor Sports</string>
+    <string name="waterSports">Water Sports</string>
+    <string name="winterSports">Winter Sports</string>
+    <string name="other">Other</string>
 
     <string-array name="interests">
-        <item>@string/tennis</item>
-        <item>@string/gokart</item>
-        <item>@string/running</item>
-        <item>@string/cardgames</item>
-        <item>@string/cinema</item>
-        <item>@string/theater</item>
-        <item>@string/citywalks</item>
-        <item>@string/hiking</item>
+        <item>@string/ballGames</item>
+        <item>@string/boardGames</item>
+        <item>@string/cultural</item>
+        <item>@string/eSports</item>
+        <item>@string/indoorSports</item>
+        <item>@string/outdoorActivity</item>
+        <item>@string/outdoorSports</item>
+        <item>@string/waterSports</item>
+        <item>@string/winterSports</item>
+        <item>@string/other</item>
     </string-array>
 
     <!-- Strings related to creating new event -->
