@@ -1,9 +1,12 @@
 package com.codecool.actimate.view;
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +14,19 @@ import android.widget.TextView;
 
 import com.codecool.actimate.R;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class EventCardFragment extends Fragment {
     View rootView;
     String mName;
     String mInterest;
     String mDate;
     String mLocation;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,7 +38,14 @@ public class EventCardFragment extends Fragment {
         textView.setText(mDate);
 
         textView = (TextView) rootView.findViewById(R.id.event_card_relative_date);
-        textView.setText("In 2 days");
+        Integer mYear = Integer.parseInt(mDate.substring(0,4));
+        Integer mMonth = Integer.parseInt(mDate.substring(5,7));
+        Integer mDay = Integer.parseInt(mDate.substring(8,10));
+
+        PrettyTime p = new PrettyTime(getCurrentLocale());
+        Calendar c = Calendar.getInstance();
+        c.set(mYear, mMonth, mDay);
+        textView.setText(p.format(new Date(c.getTimeInMillis())));
 
         textView = (TextView) rootView.findViewById(R.id.event_card_name);
         textView.setText(mName);
@@ -46,7 +63,7 @@ public class EventCardFragment extends Fragment {
         textView.setText(">");
 
         GradientDrawable gd = new GradientDrawable();
-        gd.setColor(Color.parseColor("#000000"));
+        gd.setColor(Color.parseColor("#1e26b8"));
         gd.setCornerRadius(10);
         rootView.findViewById(R.id.event_card_interest_tag).setBackgroundDrawable(gd);
         int sdk = android.os.Build.VERSION.SDK_INT;
@@ -64,5 +81,15 @@ public class EventCardFragment extends Fragment {
         mInterest = interest;
         mDate = date;
         mLocation = location;
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    public Locale getCurrentLocale(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            return getResources().getConfiguration().getLocales().get(0);
+        } else{
+            //noinspection deprecation
+            return getResources().getConfiguration().locale;
+        }
     }
 }

@@ -1,11 +1,13 @@
 package com.codecool.actimate.view;
 
+import android.annotation.TargetApi;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Iterator;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -106,8 +109,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-        fragmentTransaction.commit();
+//        fragmentTransaction.commit();
+        fragmentTransaction.commitAllowingStateLoss();
     }
+
 
     protected boolean logout(View view){
         APIController.setLoggedOut(mSharedPreferences);
