@@ -189,11 +189,12 @@ public class AddNewEventActivity extends AppCompatActivity {
         String mDescription = mEdit.getText().toString();
 
         Button mButton = (Button)findViewById(R.id.date_button);
-        String mDate = mButton.getText().toString();
-        mDate += "T";
+        String temp = mButton.getText().toString();
+        String mDate = temp.substring(temp.length()-2) + "/" + temp.substring(5, 7) + "/" + temp.substring(0,4);
         mButton = (Button)findViewById(R.id.time_button);
-        mDate += mButton.getText().toString();
-        mDate += ":00.000Z";
+        temp = mButton.getText().toString();
+        mDate += " " + temp + " am";
+        // TODO suggest removing the "a" from SimpleDateFormat on backend server
 
         mEventTask = new EventTask(mName, mInterest, mLocation, mLat, mLng, mDate, mParticipants, mDescription);
         mEventTask.execute((Void) null);

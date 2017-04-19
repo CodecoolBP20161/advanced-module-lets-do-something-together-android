@@ -52,8 +52,6 @@ public class APIController {
         try {
             while(iterator.hasNext()) {
                 Map.Entry mapEntry = (Map.Entry)iterator.next();
-
-                Log.d(TAG, "createJson: "+ mapEntry.getClass().toString());
                 json.accumulate(mapEntry.getKey().toString(), mapEntry.getValue());
             }
 

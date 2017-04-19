@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.codecool.actimate.R;
 import com.codecool.actimate.controller.APIController;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -73,39 +74,34 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        JSONObject events;
+        JSONArray eventsArray;
         try {
-            events = JSON.getJSONObject("events");
+            eventsArray = JSON.getJSONArray("events");
         } catch (JSONException e) {
-            events = null;
+            eventsArray = null;
             e.printStackTrace();
         }
+        for (int i = 0; i < eventsArray.length(); i++) {
 
-
-        Iterator<String> keys = events.keys();
-        while (keys.hasNext())
-        {
-            JSONObject value;
-            String key = keys.next();
+            JSONObject event = null;
             try {
-                value = events.getJSONObject(key);
+                event = eventsArray.getJSONObject(i);
             } catch (JSONException e) {
-                value = null;
                 e.printStackTrace();
             }
             try {
-                String name = value.getString("name");
-                String interest = this.getResources().getString(APIController.reverseSelectInterest(value.getString("interest"), context));
-                String date = value.getString("date").substring(0, 16).replace(" ", "\t");
-                String location = value.getString("location");
+                String name = event.getString("name");
+                String interest = this.getResources().getString(APIController.reverseSelectInterest(event.getString("interest"), context));
+                String date = event.getString("date").substring(0, 16).replace(" ", "\t");
+                String location = event.getString("location");
+                String color = event.getString("color");
 
                 EventCardFragment fragment = new EventCardFragment();
-                fragment.setAttributes(name, interest, date, location);
+                fragment.setAttributes(name, interest, date, location, color);
                 fragmentTransaction.add(R.id.fragment_container, fragment);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
         fragmentTransaction.commitAllowingStateLoss();
     }

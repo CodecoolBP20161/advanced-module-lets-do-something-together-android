@@ -25,6 +25,7 @@ public class EventCardFragment extends Fragment {
     String mInterest;
     String mDate;
     String mLocation;
+    String mColor;
 
 
     @Override
@@ -62,7 +63,7 @@ public class EventCardFragment extends Fragment {
         textView.setText(">");
 
         GradientDrawable gd = new GradientDrawable();
-        gd.setColor(Color.parseColor("#1e26b8"));
+        gd.setColor(Color.parseColor(mColor));
         gd.setCornerRadius(10);
         rootView.findViewById(R.id.event_card_interest_tag).setBackgroundDrawable(gd);
         int sdk = android.os.Build.VERSION.SDK_INT;
@@ -75,11 +76,12 @@ public class EventCardFragment extends Fragment {
         return rootView;
     }
 
-    public void setAttributes(String name, String interest, String date, String location) {
+    public void setAttributes(String name, String interest, String date, String location, String color) {
         mName = name;
         mInterest = interest;
         mDate = date;
         mLocation = location;
+        mColor = color;
     }
 
     @TargetApi(Build.VERSION_CODES.N)
